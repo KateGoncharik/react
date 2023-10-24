@@ -1,0 +1,28 @@
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-wrapper {
+  height: 30vh;
+  background-color: var(--search-background);
+
+}
+
+.search-button {
+  padding: 1em;
+  margin: 1em;
+  background-color: var(--button-background);
+  color: var(--button-color);
+  border: none;
+  border-radius: 1em;
+}
+
+.search-button:hover {
+  background-color: var(--button-hover);
+  color: var(--white);
+}
+.search-input:hover {
+  background-color: var(--input-hover);
+}
