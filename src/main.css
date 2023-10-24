@@ -1,0 +1,12 @@
+:root {
+  --button: rgb(255, 107, 164);
+  --button-hover: rgb(203 0 161);
+  --light-grey: #eee;
+  --input-hover: #ffdcdc8f;
+  --white: white;
+}
+
+.wrapper {
+  border: 1px solid black;
+  padding: 2rem;
+}
