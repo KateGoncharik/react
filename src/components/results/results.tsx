@@ -1,10 +1,15 @@
 import { Component, ReactNode } from 'react';
 import Item from '@/components/item/item'
-import { getAllCharacters } from '../../services/catalog-service';
+import { getAllCharacters, getSpecifiedCharacters } from '../../services/catalog-service';
 
 type ResultsState = {
   loadedCharacters: Character[] | null,
   apiResponse: {results: Array<object>} | null
+  filteredResult: Character[] | null
+}
+
+type Props = {
+  searchQuery: string
 }
 
 type Character = {
@@ -13,34 +18,39 @@ type Character = {
 }
 
 
-export default class Results extends Component<Record<string,never>, ResultsState> {
-  state: ResultsState;
-  constructor(props: Record<string,never>) {
-    super(props);
-    this.state = {
-      loadedCharacters: null,
+export default class Results extends Component<Props, ResultsState> {
+  state: ResultsState = {
+    loadedCharacters: null,
       apiResponse: null,
-    };
-  }
-
+      filteredResult: null,
+  };
 
   componentDidMount() {
     getAllCharacters().then((results) => {this.setState( {apiResponse: results});
-    this.setState({loadedCharacters: results.results})} );
+    this.setState({loadedCharacters: results.results})});
+    getSpecifiedCharacters(this.props.searchQuery).then((character) => this.setState({filteredResult: character.results}));
     
 
   }
 
   render(): ReactNode {
-    if(this.state.loadedCharacters){
+    if(this.state.filteredResult){
       return (
         <div className="results-wrapper">
-           {this.state.loadedCharacters.map((character) => {
+         
+          {this.state.filteredResult.map((character) => {
             return <Item key={character.name} characterName={character.name} characterUrl={character.url} />;
           })}
         </div>
       );
     }
-    return <></>
+    if(this.state.loadedCharacters){
+      return <>
+        {this.state.loadedCharacters.map((character) => {
+          return <Item key={character.name} characterName={character.name} characterUrl={character.url} />;
+        })}
+      </>
+    }
+    
   }
 }

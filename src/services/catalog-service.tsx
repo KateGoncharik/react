@@ -9,3 +9,10 @@ export async function getAllCharacters() {
   return results;
 }
 
+export async function getSpecifiedCharacters(query: string) {
+  const results = await 
+  fetch(`${baseUrl}/character/?name=${query}`)
+  .then((res) => res.json())
+  .then((data) => data);
+  return results;
+}
