@@ -1,10 +1,9 @@
-import Search from '@/components/search';
+import MainPage from '@/pages/main-page';
 
 function App() {
   return (
     <div className="wrapper">
-      <Search />
-      {/* <Results /> */}
+      <MainPage />
     </div>
   );
 }

@@ -1,12 +1,15 @@
 :root {
-  --button: rgb(255, 107, 164);
+  --button-color: pink;
+  --button-background: rgb(255, 107, 164);
   --button-hover: rgb(203 0 161);
   --light-grey: #eee;
+  --grey: #787777;
   --input-hover: #ffdcdc8f;
   --white: white;
+  --search-background: #ffd3f6;
+  --results-background: #faeaff;
 }
 
 .wrapper {
-  border: 1px solid black;
   padding: 2rem;
 }

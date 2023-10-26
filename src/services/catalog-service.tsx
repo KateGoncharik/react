@@ -1,5 +1,16 @@
-export function fetchData() {
-  fetch(`https://pokeapi.co/api/v2/pokemon/`)
+const baseUrl = 'https://rickandmortyapi.com/api';
+
+export async function getAllCharacters() {
+  const results = await fetch(`
+  ${baseUrl}/character`)
     .then((res) => res.json())
-    .then((fetchedData) => fetchedData);
+    .then((data) => data);
+  return results;
+}
+
+export async function getSpecifiedCharacters(query: string) {
+  const results = await fetch(`${baseUrl}/character/?name=${query}`)
+    .then((res) => res.json())
+    .then((data) => data);
+  return results;
 }
