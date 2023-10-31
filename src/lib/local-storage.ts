@@ -1,6 +1,6 @@
 type JSONValue = string | number | boolean | { [x: string]: JSONValue } | Array<JSONValue>;
 
-const id = 'url_redirect';
+const id = 'KateGonch';
 
 export class LocalStorage {
   public static getItem<T>(name: string): T | null {

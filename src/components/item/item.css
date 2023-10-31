@@ -11,10 +11,10 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-
 }
 
-.item-name, .item-url {
+.item-name,
+.item-url {
   color: var(--button);
 }
 

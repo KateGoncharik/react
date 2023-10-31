@@ -27,6 +27,7 @@
 .search-button:hover {
   background-color: var(--button-hover);
   color: var(--white);
+  cursor: pointer;
 }
 .search-input:hover {
   background-color: var(--input-hover);

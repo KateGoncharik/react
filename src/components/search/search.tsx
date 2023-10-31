@@ -1,35 +1,19 @@
 import { Component } from 'react';
+import SearchInput from '../search-input/search-input';
+import SearchButton from '../search-button/search-button';
 
 type Props = {
-  handler: (query: string) => void 
-}
-type SearchState = {
- name: string
-}
-export default class Search extends Component<Props, SearchState> {
-  state: SearchState = {
-    name: '',
-  };
+  inputChangeHandler: (query: string) => void;
+  buttonClickHandler: () => void;
+};
 
-  inputChangeHandler(query: string) {
-    this.props.handler( (query).trim())
-  }
-  
+export default class Search extends Component<Props, never> {
   render() {
     return (
-      <>
-        <div className="search-wrapper">
-          <input
-            className="search-input"
-            value={this.state.name}
-            onChange={() => {
-             1
-            }}// setState on submit, not on change
-          />
-          <button className="search-button" onClick={(e) => {
-              this.inputChangeHandler(`foo`)}}>Search</button>
-        </div>
-      </>
+      <div className="search-wrapper">
+        <SearchInput inputChangeHandler={this.props.inputChangeHandler} />
+        <SearchButton buttonClickHandler={this.props.buttonClickHandler} />
+      </div>
     );
   }
 }

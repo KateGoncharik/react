@@ -1,5 +1,5 @@
 :root {
-  --button-color: pink;
+  --button-color: rgb(255, 255, 255);
   --button-background: rgb(255, 107, 164);
   --button-hover: rgb(203 0 161);
   --light-grey: #eee;
