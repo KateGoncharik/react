@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { LocalStorage } from '@/lib/local-storage';
 
 type Props = {
   inputChangeHandler: (query: string) => void;
@@ -13,10 +14,10 @@ export default class SearchInput extends Component<Props, never> {
     return (
       <input
         className="search-input"
-        defaultValue={''}
+        defaultValue={LocalStorage.getItem('lastSearchQuery') ||''}
         onChange={(e) => {
           this.props.inputChangeHandler(e.target.value);
-        }} // TODO setState on submit, not on change
+        }}
       />
     );
   }

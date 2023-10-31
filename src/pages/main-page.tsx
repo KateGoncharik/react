@@ -29,7 +29,6 @@ export default class MainPage extends Component<Record<string, never>, MainPageS
     this.setState({
       inputValue: value,
     });
-    LocalStorage.setItem('lastSearchQuery', value);
   }
 
   componentDidMount() {
@@ -42,10 +41,11 @@ export default class MainPage extends Component<Record<string, never>, MainPageS
       (character: { results: Character[] }) => {
         this.setState({ characters: character.results });
       }
-    ); //TODO if we put input value on submit to searchQuery property in state -we can't reach it until next render
+    );
   }
 
   buttonClickHandler() {
+    LocalStorage.setItem('lastSearchQuery', this.state.inputValue);
     this.getCharacters();
   }
 
