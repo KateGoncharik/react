@@ -5,7 +5,7 @@
   "type": "module",
   "husky": {
     "hooks": {
-      "pre-commit": "eslint . --ext ts.tsx prettier . --write"
+      "pre-commit": "eslint . --ext ts,tsx prettier . --write"
     }
   },
   "lint-staged": {
