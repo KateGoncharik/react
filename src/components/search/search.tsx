@@ -7,12 +7,32 @@ type Props = {
   buttonClickHandler: () => void;
 };
 
-export default class Search extends Component<Props, never> {
+type SearchState = {
+  hasError: boolean;
+};
+
+export default class Search extends Component<Props, SearchState> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      hasError: false,
+    };
+  }
   render() {
+    if (this.state.hasError === true) {
+      throw new Error('Some problem occured!');
+    }
     return (
       <div className="search-wrapper">
         <SearchInput inputChangeHandler={this.props.inputChangeHandler} />
         <SearchButton buttonClickHandler={this.props.buttonClickHandler} />
+        <button
+          onClick={() => {
+            this.setState({ hasError: true });
+          }}
+        >
+          throw Error
+        </button>
       </div>
     );
   }

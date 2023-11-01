@@ -14,7 +14,7 @@ export default class SearchInput extends Component<Props, never> {
     return (
       <input
         className="search-input"
-        defaultValue={LocalStorage.getItem('lastSearchQuery') ||''}
+        defaultValue={LocalStorage.getItem('lastSearchQuery') || ''}
         onChange={(e) => {
           this.props.inputChangeHandler(e.target.value);
         }}

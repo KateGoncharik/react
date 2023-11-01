@@ -1,9 +1,12 @@
 import MainPage from '@/pages/main-page';
+import ErrorBoundary from '@/components/error-boundary/error-boundary';
 
 function App() {
   return (
     <div className="wrapper">
-      <MainPage />
+      <ErrorBoundary>
+        <MainPage />
+      </ErrorBoundary>
     </div>
   );
 }
