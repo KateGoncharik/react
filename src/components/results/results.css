@@ -1,0 +1,8 @@
+.results-wrapper {
+  padding: 2em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--results-background);
+}
