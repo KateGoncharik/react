@@ -1,13 +1,15 @@
 import { ReactNode } from 'react';
 
-type Props = {
+type LimitChangeButtonProps = {
   buttonClickHandler: () => void;
 };
 
-export default function SearchButton({ buttonClickHandler }: Props): ReactNode {
+export default function LimitChangeButton({
+  buttonClickHandler,
+}: LimitChangeButtonProps): ReactNode {
   return (
     <button className="search-button" onClick={buttonClickHandler}>
-      Search
+      Change limit
     </button>
   );
 }

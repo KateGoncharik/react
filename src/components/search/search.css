@@ -5,7 +5,7 @@
 }
 
 .search-wrapper {
-  height: 30vh;
+  height: 10vh;
   background-color: var(--search-background);
 }
 
@@ -14,7 +14,7 @@
   margin: 1em;
   background-color: var(--button-background);
   color: var(--button-color);
-  border: none;
+  border: 1px solid var(--button-color);
   border-radius: 1em;
 }
 
