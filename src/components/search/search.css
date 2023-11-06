@@ -9,7 +9,8 @@
   background-color: var(--search-background);
 }
 
-.search-button {
+.search-button,
+.error-button {
   padding: 1em;
   margin: 1em;
   background-color: var(--button-background);
@@ -18,10 +19,8 @@
   border-radius: 1em;
 }
 
-.search-button:hover {
+.search-button:hover,
+.error-button:hover {
   background-color: var(--button-hover);
   color: var(--white);
-}
-.search-input:hover {
-  background-color: var(--input-hover);
 }

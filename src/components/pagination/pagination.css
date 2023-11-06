@@ -11,6 +11,7 @@
 .pagination-prev {
   width: 30%;
   border: 1px solid var(--button-color);
+  color: var(--button-color);
   background-color: var(--button-background);
   text-transform: uppercase;
   display: flex;
@@ -21,5 +22,5 @@
 .pagination-next:hover,
 .pagination-prev:hover {
   cursor: pointer;
-  background-color: white;
+  background-color: var(--button-hover);
 }

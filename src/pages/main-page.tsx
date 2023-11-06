@@ -5,16 +5,20 @@ import Results from '@/components/results/results';
 import { getItem, setItem } from '@/lib/local-storage';
 import { getSpecifiedCharacters } from '@/services/catalog-service';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
+import parse_link_header from '@/lib/parse-links';
 
 type Character = {
   name: string;
   url: string;
 };
+
+type Links = { first: string; prev: string; next: string; last: string };
 export default function MainPage({}: Record<string, never>) {
   const [inputValue, setInputValue] = useState(getItem('lastSearchQuery') ?? '');
   const [characters, setCharacters] = useState<Character[] | null>(null);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(40);
+  const [links, setLinks] = useState<Links>({ first: '', prev: '', next: '', last: '' });
 
   function inputChangeHandler(value: string) {
     setInputValue(value);
@@ -22,19 +26,32 @@ export default function MainPage({}: Record<string, never>) {
 
   useEffect(() => {
     const lastSearchQuery = getItem('lastSearchQuery');
-    getSpecifiedCharacters({ query: lastSearchQuery, page, limit }).then(
-      (characters: Character[]) => {
-        setCharacters(characters);
-      }
-    );
+    getCharacters(lastSearchQuery, page, limit, false);
   }, [page, limit]);
 
-  function buttonClickHandler() {
+  async function buttonClickHandler() {
     setItem('lastSearchQuery', inputValue);
-    getSpecifiedCharacters({ query: inputValue, page, limit }).then((characters: Character[]) => {
-      setCharacters(characters);
-      setFirstPage();
-    });
+    getCharacters(inputValue, page, limit, true);
+  }
+
+  function getCharacters(query: string, page: number, limit: number, isNewQuery: boolean) {
+    getSpecifiedCharacters({ query, page, limit })
+      .then((response: Response) => {
+        if (response.headers.get('Link')) {
+          setLinks(parse_link_header(response.headers.get('Link')));
+        }
+        return response.json();
+      })
+      .then((characters: Character[]) => {
+        if (characters.length) {
+          setCharacters(characters);
+          if (isNewQuery) {
+            setFirstPage();
+          }
+        } else {
+          setCharacters(null);
+        }
+      });
   }
 
   function limitChangeHandler(newLimit: number) {
@@ -42,8 +59,12 @@ export default function MainPage({}: Record<string, never>) {
   }
 
   function paginationNextHandler() {
-    // TODO check wether we have next
-    setPage(page + 1);
+    if (links.next !== '') {
+      setPage(page + 1);
+      // make button active
+    } else {
+      return;
+    }
   }
 
   function paginationPrevHandler() {

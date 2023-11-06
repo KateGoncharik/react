@@ -17,6 +17,7 @@ export default function Search({ inputChangeHandler, buttonClickHandler }: Props
       <SearchInput inputChangeHandler={inputChangeHandler} />
       <SearchButton buttonClickHandler={buttonClickHandler} />
       <button
+        className="error-button"
         onClick={() => {
           setHasError(true);
         }}
