@@ -1,20 +1,31 @@
 import { ReactNode } from 'react';
 
 type PaginationProps = {
-  paginationNextHandler: () => void;
-  paginationPrevHandler: () => void;
+  pageChangeHandler: (number: number) => void;
+  currentPage: number;
+  maxPageCount: number;
 };
 export function Pagination({
-  paginationNextHandler,
-  paginationPrevHandler,
+  pageChangeHandler,
+  currentPage,
+  maxPageCount,
 }: PaginationProps): ReactNode {
   return (
     <div className="pagination">
-      <button className="pagination-prev" onClick={paginationPrevHandler}>
-        prev
+      <button
+        className="pagination-button"
+        onClick={() => pageChangeHandler(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        {currentPage === 1 ? '' : currentPage - 1}
       </button>
-      <button className="pagination-next" onClick={paginationNextHandler}>
-        next
+      <div className="current-page">{currentPage}</div>
+      <button
+        className="pagination-button"
+        onClick={() => pageChangeHandler(currentPage + 1)}
+        disabled={currentPage === maxPageCount}
+      >
+        {currentPage === maxPageCount ? '' : currentPage + 1}
       </button>
     </div>
   );

@@ -5,20 +5,18 @@ import Results from '@/components/results/results';
 import { getItem, setItem } from '@/lib/local-storage';
 import { getSpecifiedCharacters } from '@/services/catalog-service';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
-import parse_link_header from '@/lib/parse-links';
 
 type Character = {
   name: string;
   url: string;
 };
 
-type Links = { first: string; prev: string; next: string; last: string };
 export default function MainPage({}: Record<string, never>) {
   const [inputValue, setInputValue] = useState(getItem('lastSearchQuery') ?? '');
   const [characters, setCharacters] = useState<Character[] | null>(null);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(40);
-  const [links, setLinks] = useState<Links>({ first: '', prev: '', next: '', last: '' });
+  const [maxPageCount, setMaxPageCount] = useState(0);
 
   function inputChangeHandler(value: string) {
     setInputValue(value);
@@ -34,11 +32,24 @@ export default function MainPage({}: Record<string, never>) {
     getCharacters(inputValue, page, limit, true);
   }
 
+  function pageChangeHandler(num: number) {
+    const nextPage = num > 1 && num <= maxPageCount ? num : 1;
+
+    if (nextPage === page) {
+      return;
+    }
+
+    setPage(nextPage);
+  }
+
   function getCharacters(query: string, page: number, limit: number, isNewQuery: boolean) {
     getSpecifiedCharacters({ query, page, limit })
       .then((response: Response) => {
-        if (response.headers.get('Link')) {
-          setLinks(parse_link_header(response.headers.get('Link')));
+        if (response.headers.get('X-Total-Count')) {
+          const maximumNumberOfPages = Math.ceil(
+            Number(response.headers.get('X-Total-Count')) / limit
+          );
+          setMaxPageCount(maximumNumberOfPages);
         }
         return response.json();
       })
@@ -58,22 +69,6 @@ export default function MainPage({}: Record<string, never>) {
     setLimit(newLimit);
   }
 
-  function paginationNextHandler() {
-    if (links.next !== '') {
-      setPage(page + 1);
-      // make button active
-    } else {
-      return;
-    }
-  }
-
-  function paginationPrevHandler() {
-    if (page === 1) {
-      return;
-    }
-    setPage(page - 1);
-  }
-
   function setFirstPage() {
     setPage(1);
   }
@@ -88,8 +83,9 @@ export default function MainPage({}: Record<string, never>) {
       />
       <Results
         characters={characters}
-        paginationNextHandler={paginationNextHandler}
-        paginationPrevHandler={paginationPrevHandler}
+        pageChangeHandler={pageChangeHandler}
+        currentPage={page}
+        maxPageCount={maxPageCount}
       />
     </>
   );

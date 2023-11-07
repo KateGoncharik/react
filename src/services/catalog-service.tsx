@@ -10,6 +10,5 @@ export async function getSpecifiedCharacters({
   page = 1,
   limit = 10,
 }: getCharactersProps): Promise<Response> {
-  const response = await fetch(`${baseUrl}?q=${query}&_page=${page}&_limit=${limit}`);
-  return response;
+  return await fetch(`${baseUrl}?q=${query}&_page=${page}&_limit=${limit}`);
 }

@@ -12,8 +12,9 @@ export type Character = {
 
 export type ResultsProps = {
   characters: Array<Character>;
-  paginationNextHandler: () => void;
-  paginationPrevHandler: () => void;
+  pageChangeHandler: (number: number) => void;
+  currentPage: number;
+  maxPageCount: number;
 };
 
 export type ItemProps = {

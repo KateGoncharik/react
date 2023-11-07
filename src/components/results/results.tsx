@@ -6,14 +6,16 @@ import { Pagination } from '../pagination/pagination';
 
 export default function Results({
   characters,
-  paginationNextHandler,
-  paginationPrevHandler,
+  pageChangeHandler,
+  currentPage,
+  maxPageCount,
 }: ResultsProps): ReactNode {
   return characters ? (
     <div className="results-wrapper">
       <Pagination
-        paginationNextHandler={paginationNextHandler}
-        paginationPrevHandler={paginationPrevHandler}
+        pageChangeHandler={pageChangeHandler}
+        currentPage={currentPage}
+        maxPageCount={maxPageCount}
       />
       {characters.map((character: Character) => {
         return <Item key={`${character.name}-${character.id}`} character={character} />;
