@@ -31,27 +31,25 @@
   text-transform: capitalize;
 }
 
-
 .item-image {
   margin: 1em;
   max-width: 70%;
   max-height: 50%;
 }
 
-@media (max-width: 1200px){
+@media (max-width: 1200px) {
   .results-item {
     margin: 0.5em;
   }
 }
 
-@media (max-width: 1000px){
+@media (max-width: 1000px) {
   .results-item {
     width: 60%;
     font-size: 1em;
-
   }
 
-  .item-description{
+  .item-description {
     display: none;
-}
+  }
 }

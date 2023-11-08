@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Character } from 'src/types/types';
 
 import { getCharacterById } from '@/services/catalog-service';
@@ -7,6 +7,7 @@ import { getCharacterById } from '@/services/catalog-service';
 export default function ItemDetails(): ReactElement {
   const [character, setCharacter] = useState<Character | null>(null);
   const { itemId } = useParams();
+  const { page } = useParams();
 
   useEffect(() => {
     if (itemId) {
@@ -30,6 +31,9 @@ export default function ItemDetails(): ReactElement {
         <div className="item-details-description">Gender: {character.gender}</div>
         <div className="item-details-description">Origin: {character.origin}</div>
         <div className="item-details-description">Last seen: {character.location}</div>
+        <Link to={`/${page}`} className="close">
+          close
+        </Link>
       </div>
     );
   }
