@@ -5,6 +5,7 @@ import Results from '@/components/results/results';
 import { getItem, setItem } from '@/lib/local-storage';
 import { getSpecifiedCharacters } from '@/services/catalog-service';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
+import { Outlet } from 'react-router-dom';
 
 type Character = {
   name: string;
@@ -81,12 +82,15 @@ export default function MainPage({}: Record<string, never>) {
         limitFromMain={limit}
         setFirstPage={setFirstPage}
       />
-      <Results
-        characters={characters}
-        pageChangeHandler={pageChangeHandler}
-        currentPage={page}
-        maxPageCount={maxPageCount}
-      />
+      <div className="results-and-item-wrapper">
+        <Results
+          characters={characters}
+          pageChangeHandler={pageChangeHandler}
+          currentPage={page}
+          maxPageCount={maxPageCount}
+        />
+        <Outlet />
+      </div>
     </>
   );
 }

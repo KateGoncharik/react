@@ -7,14 +7,22 @@ import './main.css';
 import '@/components/item/item.css';
 import '@/components/results/results.css';
 import '@/components/pagination/pagination.css';
+import '@/components/item-details/item-details.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ItemDetails from './components/item-details/item-details';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/:page?',
     element: <MainPage />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'details/:itemId',
+        element: <ItemDetails />,
+      },
+    ],
   },
 ]);
 
