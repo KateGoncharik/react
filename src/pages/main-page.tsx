@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import Search from '@/components/search/search';
 import Results from '@/components/results/results';
-import { getItem, setItem } from '@/lib/local-storage';
+import { setItem } from '@/lib/local-storage';
 import { getSpecifiedCharacters } from '@/services/catalog-service';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
 import { useSearchQuery, useSearchQuerySetter } from '@/context/search-context';
@@ -25,8 +25,7 @@ export default function MainPage({}: Record<string, never>) {
   }
 
   useEffect(() => {
-    const lastSearchQuery = getItem('lastSearchQuery');
-    getCharacters(lastSearchQuery, page, limit, false);
+    getCharacters(currentSearchQuery, page, limit, false);
   }, [page, limit]);
 
   async function buttonClickHandler() {
