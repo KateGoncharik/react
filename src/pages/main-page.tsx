@@ -1,26 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import Search from '@/components/search/search';
 import Results from '@/components/results/results';
 import { getItem, setItem } from '@/lib/local-storage';
 import { getSpecifiedCharacters } from '@/services/catalog-service';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
-import { Outlet } from 'react-router-dom';
+import { useSearchQuery, useSearchQuerySetter } from '@/context/search-context';
+import { Character } from '@/types/types';
 
-type Character = {
-  name: string;
-  url: string;
-};
+export const InputChangeHandlerContext = createContext<((value: string) => void) | null>(null);
+export const SearchInputContext = createContext('');
 
 export default function MainPage({}: Record<string, never>) {
-  const [inputValue, setInputValue] = useState(getItem('lastSearchQuery') ?? '');
+  const currentSearchQuery = useSearchQuery();
+  const searchQuerySetter = useSearchQuerySetter();
   const [characters, setCharacters] = useState<Character[] | null>(null);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(40);
   const [maxPageCount, setMaxPageCount] = useState(0);
 
   function inputChangeHandler(value: string) {
-    setInputValue(value);
+    searchQuerySetter(value);
   }
 
   useEffect(() => {
@@ -29,8 +30,8 @@ export default function MainPage({}: Record<string, never>) {
   }, [page, limit]);
 
   async function buttonClickHandler() {
-    setItem('lastSearchQuery', inputValue);
-    getCharacters(inputValue, page, limit, true);
+    setItem('lastSearchQuery', currentSearchQuery);
+    getCharacters(currentSearchQuery, page, limit, true);
   }
 
   function pageChangeHandler(num: number) {
@@ -76,21 +77,23 @@ export default function MainPage({}: Record<string, never>) {
 
   return (
     <>
-      <Search inputChangeHandler={inputChangeHandler} buttonClickHandler={buttonClickHandler} />
-      <LimitChangeToolbar
-        limitChangeHandler={limitChangeHandler}
-        limitFromMain={limit}
-        setFirstPage={setFirstPage}
-      />
-      <div className="results-and-item-wrapper">
-        <Results
-          characters={characters}
-          pageChangeHandler={pageChangeHandler}
-          currentPage={page}
-          maxPageCount={maxPageCount}
+      <InputChangeHandlerContext.Provider value={inputChangeHandler}>
+        <Search inputChangeHandler={inputChangeHandler} buttonClickHandler={buttonClickHandler} />
+        <LimitChangeToolbar
+          limitChangeHandler={limitChangeHandler}
+          limitFromMain={limit}
+          setFirstPage={setFirstPage}
         />
-        <Outlet />
-      </div>
+        <div className="results-and-item-wrapper">
+          <Results
+            characters={characters}
+            pageChangeHandler={pageChangeHandler}
+            currentPage={page}
+            maxPageCount={maxPageCount}
+          />
+          <Outlet />
+        </div>
+      </InputChangeHandlerContext.Provider>
     </>
   );
 }

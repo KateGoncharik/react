@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 import ErrorPage from '@/pages/error-page';
 import MainPage from './pages/main-page';
 import '@/components/search/search.css';
@@ -11,6 +12,7 @@ import '@/components/item-details/item-details.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ItemDetails from './components/item-details/item-details';
+import { SearchQueryProvider } from './context/search-context';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <SearchQueryProvider>
+      <RouterProvider router={router} />
+    </SearchQueryProvider>
   </React.StrictMode>
 );

@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Character } from 'src/types/types';
 
+import { Character } from '@/types/types';
 import { getCharacterById } from '@/services/catalog-service';
 
 export default function ItemDetails(): ReactElement {
@@ -37,7 +37,6 @@ export default function ItemDetails(): ReactElement {
       </div>
     );
   }
-  // TODO add more details
 
   return <></>;
 }
