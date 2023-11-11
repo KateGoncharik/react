@@ -4,11 +4,12 @@ import { Dispatch, SetStateAction } from 'react';
 import { getItem } from '@/lib/local-storage';
 
 type SearchQuerySetter = Dispatch<SetStateAction<string>>;
+type SearchQuerySetterContextProps = { children: React.ReactNode };
 
 export const SearchQueryContext = createContext('');
 export const SearchQuerySetterContext = createContext<SearchQuerySetter>(() => {});
 
-export const SearchQueryProvider = ({ children }) => {
+export const SearchQueryProvider = ({ children }: SearchQuerySetterContextProps) => {
   const [searchQuery, setSearchQuery] = useState(getItem('lastSearchQuery') ?? '');
   return (
     <SearchQueryContext.Provider value={searchQuery}>
