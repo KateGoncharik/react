@@ -1,14 +1,12 @@
-import MainPage from '@/pages/main-page';
-import ErrorBoundary from '@/components/error-boundary/error-boundary';
+import { RouterProvider } from 'react-router-dom';
+import { router } from '@/routes';
 
-function App() {
+import { SearchQueryProvider } from '@/context/search-context';
+
+export default function App() {
   return (
-    <div className="wrapper">
-      <ErrorBoundary>
-        <MainPage />
-      </ErrorBoundary>
-    </div>
+    <SearchQueryProvider>
+      <RouterProvider router={router} />
+    </SearchQueryProvider>
   );
 }
-
-export default App;
