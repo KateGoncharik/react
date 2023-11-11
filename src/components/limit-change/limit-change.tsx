@@ -3,7 +3,7 @@ import { useState } from 'react';
 import LimitChangeInput from './limit-change-input/limit-change-input';
 import LimitChangeButton from './limit-change-button/limit-change-button';
 
-type Props = {
+type LimitChangeProps = {
   limitChangeHandler: (limit: number) => void;
   buttonClickHandler: (updateLimit: () => void) => void;
   limitFromMain: number;
@@ -14,7 +14,7 @@ export default function LimitChangeToolbar({
   limitChangeHandler,
   limitFromMain,
   setFirstPage,
-}: Props) {
+}: LimitChangeProps) {
   const [limit, setLimit] = useState(limitFromMain);
 
   function inputChangeHandler(limitFromUser: number) {

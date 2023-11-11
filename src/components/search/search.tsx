@@ -1,29 +1,15 @@
-import { useState } from 'react';
-
 import SearchInput from '../search-input/search-input';
 import SearchButton from '../search-button/search-button';
 
-type Props = {
+type SearchProps = {
   buttonClickHandler: () => void;
 };
 
-export default function Search({ buttonClickHandler }: Props) {
-  const [hasError, setHasError] = useState(false);
-  if (hasError === true) {
-    throw new Error('Some problem occured!');
-  }
+export default function Search({ buttonClickHandler }: SearchProps) {
   return (
     <div className="search-wrapper">
       <SearchInput />
       <SearchButton buttonClickHandler={buttonClickHandler} />
-      <button
-        className="error-button"
-        onClick={() => {
-          setHasError(true);
-        }}
-      >
-        throw Error
-      </button>
     </div>
   );
 }

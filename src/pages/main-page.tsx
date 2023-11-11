@@ -8,6 +8,7 @@ import { getSpecifiedCharacters } from '@/services/catalog-service';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
 import { useSearchQuery, useSearchQuerySetter } from '@/context/search-context';
 import { Character } from '@/types/types';
+import { ErrorButton } from '@/components/error-button/error-button';
 
 export const InputChangeHandlerContext = createContext<((value: string) => void) | null>(null);
 export const SearchInputContext = createContext('');
@@ -15,7 +16,7 @@ export const SearchInputContext = createContext('');
 export default function MainPage({}: Record<string, never>) {
   const currentSearchQuery = useSearchQuery();
   const searchQuerySetter = useSearchQuerySetter();
-  const [characters, setCharacters] = useState<Character[] | null>(null);
+  const [characters, setCharacters] = useState<Character[]>([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(40);
   const [maxPageCount, setMaxPageCount] = useState(0);
@@ -61,7 +62,7 @@ export default function MainPage({}: Record<string, never>) {
             setFirstPage();
           }
         } else {
-          setCharacters(null);
+          setCharacters([]);
         }
       });
   }
@@ -72,6 +73,10 @@ export default function MainPage({}: Record<string, never>) {
 
   function setFirstPage() {
     setPage(1);
+  }
+  const [hasError, setHasError] = useState(false);
+  if (hasError === true) {
+    throw new Error('Some problem occured!');
   }
 
   return (
@@ -91,6 +96,7 @@ export default function MainPage({}: Record<string, never>) {
             maxPageCount={maxPageCount}
           />
           <Outlet />
+          <ErrorButton handler={setHasError} />
         </div>
       </InputChangeHandlerContext.Provider>
     </>

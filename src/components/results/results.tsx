@@ -1,8 +1,15 @@
 import { ReactNode } from 'react';
 
 import Item from '@/components/item/item';
-import type { Character, ResultsProps } from 'src/types/types';
+import type { Character } from 'src/types/types';
 import { Pagination } from '../pagination/pagination';
+
+type ResultsProps = {
+  characters: Character[];
+  pageChangeHandler: (number: number) => void;
+  currentPage: number;
+  maxPageCount: number;
+};
 
 export default function Results({
   characters,
