@@ -1,5 +1,5 @@
-import SearchInput from '../search-input/search-input';
-import SearchButton from '../search-button/search-button';
+import SearchInput from '@/components/search-input/search-input';
+import SearchButton from '@/components/search-button/search-button';
 
 type SearchProps = {
   buttonClickHandler: () => void;

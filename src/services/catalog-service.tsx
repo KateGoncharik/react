@@ -1,4 +1,4 @@
-import { Character } from 'src/types/types';
+import { Character } from '@/types/types';
 
 const baseUrl = 'https://rickandmortyapi-sigma.vercel.app/api/character';
 
