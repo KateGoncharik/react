@@ -1,16 +1,21 @@
 export type Character = {
+  created: string;
+  gender: string;
+  id: number;
+  location: string;
   name: string;
-  url: string;
-};
-export type ResultsState = {
-  characters: { results: Array<Character> } | null;
+  origin: string;
+  species: string;
+  status: string;
+  type: string;
 };
 
 export type ResultsProps = {
   characters: Array<Character>;
+  paginationNextHandler: () => void;
+  paginationPrevHandler: () => void;
 };
 
-export type ItemState = {
-  characterName: string;
-  characterUrl: string;
+export type ItemProps = {
+  character: Character;
 };

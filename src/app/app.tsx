@@ -1,7 +1,7 @@
 import MainPage from '@/pages/main-page';
 import ErrorBoundary from '@/components/error-boundary/error-boundary';
 
-function App() {
+export default function App() {
   return (
     <div className="wrapper">
       <ErrorBoundary>
@@ -10,5 +10,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

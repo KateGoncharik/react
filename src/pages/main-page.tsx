@@ -1,63 +1,75 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 
 import Search from '@/components/search/search';
 import Results from '@/components/results/results';
-import { LocalStorage } from '@/lib/local-storage';
+import { getItem, setItem } from '@/lib/local-storage';
 import { getSpecifiedCharacters } from '@/services/catalog-service';
-
-type MainPageState = {
-  inputValue: string;
-  characters: Character[] | null;
-};
+import LimitChangeToolbar from '@/components/limit-change/limit-change';
 
 type Character = {
   name: string;
   url: string;
 };
-export default class MainPage extends Component<Record<string, never>, MainPageState> {
-  constructor(props: Record<string, never>) {
-    super(props);
-    this.state = {
-      inputValue: LocalStorage.getItem('lastSearchQuery') ?? '',
-      characters: null,
-    };
-    this.inputChangeHandler = this.inputChangeHandler.bind(this);
-    this.buttonClickHandler = this.buttonClickHandler.bind(this);
+export default function MainPage({}: Record<string, never>) {
+  const [inputValue, setInputValue] = useState(getItem('lastSearchQuery') ?? '');
+  const [characters, setCharacters] = useState<Character[] | null>(null);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(40);
+
+  function inputChangeHandler(value: string) {
+    setInputValue(value);
   }
 
-  inputChangeHandler(value: string) {
-    this.setState({
-      inputValue: value,
+  useEffect(() => {
+    const lastSearchQuery = getItem('lastSearchQuery');
+    getSpecifiedCharacters({ query: lastSearchQuery, page, limit }).then(
+      (characters: Character[]) => {
+        setCharacters(characters);
+      }
+    );
+  }, [page, limit]);
+
+  function buttonClickHandler() {
+    setItem('lastSearchQuery', inputValue);
+    getSpecifiedCharacters({ query: inputValue, page, limit }).then((characters: Character[]) => {
+      setCharacters(characters);
+      setFirstPage();
     });
   }
 
-  componentDidMount() {
-    const lastSearchQuery = LocalStorage.getItem('searchQuery');
-    this.getCharacters(lastSearchQuery);
+  function limitChangeHandler(newLimit: number) {
+    setLimit(newLimit);
   }
 
-  getCharacters(searchQuery?: string) {
-    getSpecifiedCharacters(searchQuery ?? this.state.inputValue).then(
-      (character: { results: Character[] }) => {
-        this.setState({ characters: character.results });
-      }
-    );
+  function paginationNextHandler() {
+    // TODO check wether we have next
+    setPage(page + 1);
   }
 
-  buttonClickHandler() {
-    LocalStorage.setItem('lastSearchQuery', this.state.inputValue);
-    this.getCharacters();
+  function paginationPrevHandler() {
+    if (page === 1) {
+      return;
+    }
+    setPage(page - 1);
   }
 
-  render() {
-    return (
-      <>
-        <Search
-          inputChangeHandler={this.inputChangeHandler}
-          buttonClickHandler={this.buttonClickHandler}
-        />
-        <Results characters={this.state.characters} />
-      </>
-    );
+  function setFirstPage() {
+    setPage(1);
   }
+
+  return (
+    <>
+      <Search inputChangeHandler={inputChangeHandler} buttonClickHandler={buttonClickHandler} />
+      <LimitChangeToolbar
+        limitChangeHandler={limitChangeHandler}
+        limitFromMain={limit}
+        setFirstPage={setFirstPage}
+      />
+      <Results
+        characters={characters}
+        paginationNextHandler={paginationNextHandler}
+        paginationPrevHandler={paginationPrevHandler}
+      />
+    </>
+  );
 }
