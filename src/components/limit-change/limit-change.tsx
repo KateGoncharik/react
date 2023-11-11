@@ -5,7 +5,6 @@ import LimitChangeButton from './limit-change-button/limit-change-button';
 
 type LimitChangeProps = {
   limitChangeHandler: (limit: number) => void;
-  buttonClickHandler: (updateLimit: () => void) => void;
   limitFromMain: number;
   setFirstPage: () => void;
 };

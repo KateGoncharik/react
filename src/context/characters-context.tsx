@@ -2,14 +2,14 @@ import { createContext, useContext, useState } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Character } from 'src/types/types';
 
-type ResultsSetter = Dispatch<SetStateAction<Character[] | null>>;
+type CharactersSetter = Dispatch<SetStateAction<Character[]>>;
 type SearchQuerySetterContextProps = { children: React.ReactNode };
 
-export const CharactersContext = createContext<Character[] | null>(null);
-export const CharactersSetterContext = createContext<ResultsSetter>(() => {});
+export const CharactersContext = createContext<Character[]>([]);
+export const CharactersSetterContext = createContext<CharactersSetter>(() => {});
 
 export const CharactersProvider = ({ children }: SearchQuerySetterContextProps) => {
-  const [results, setResults] = useState<Character[] | null>(null);
+  const [results, setResults] = useState<Character[]>([]);
   return (
     <CharactersContext.Provider value={results}>
       <CharactersSetterContext.Provider value={setResults}>
@@ -19,5 +19,5 @@ export const CharactersProvider = ({ children }: SearchQuerySetterContextProps) 
   );
 };
 
-export const useResults = () => useContext(CharactersContext);
-export const useResultsSetter = () => useContext(CharactersSetterContext);
+export const useCharacters = () => useContext(CharactersContext);
+export const useCharactersSetter = () => useContext(CharactersSetterContext);

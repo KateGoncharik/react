@@ -9,14 +9,18 @@ import LimitChangeToolbar from '@/components/limit-change/limit-change';
 import { useSearchQuery, useSearchQuerySetter } from '@/context/search-context';
 import { Character } from '@/types/types';
 import { ErrorButton } from '@/components/error-button/error-button';
+import { useCharactersSetter, useCharacters } from '@/context/characters-context';
 
-export const InputChangeHandlerContext = createContext<((value: string) => void) | null>(null);
+export const InputChangeHandlerContext = createContext<(value: string) => void>(() => {});
 export const SearchInputContext = createContext('');
 
 export default function MainPage({}: Record<string, never>) {
   const currentSearchQuery = useSearchQuery();
   const searchQuerySetter = useSearchQuerySetter();
-  const [characters, setCharacters] = useState<Character[]>([]);
+
+  const characters = useCharacters();
+  const charactersSetter = useCharactersSetter();
+
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(40);
   const [maxPageCount, setMaxPageCount] = useState(0);
@@ -57,12 +61,12 @@ export default function MainPage({}: Record<string, never>) {
       })
       .then((characters: Character[]) => {
         if (characters.length) {
-          setCharacters(characters);
+          charactersSetter(characters);
           if (isNewQuery) {
             setFirstPage();
           }
         } else {
-          setCharacters([]);
+          charactersSetter([]);
         }
       });
   }
@@ -82,7 +86,7 @@ export default function MainPage({}: Record<string, never>) {
   return (
     <>
       <InputChangeHandlerContext.Provider value={inputChangeHandler}>
-        <Search inputChangeHandler={inputChangeHandler} buttonClickHandler={buttonClickHandler} />
+        <Search buttonClickHandler={buttonClickHandler} />
         <LimitChangeToolbar
           limitChangeHandler={limitChangeHandler}
           limitFromMain={limit}
