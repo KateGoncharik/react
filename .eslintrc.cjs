@@ -34,6 +34,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    project: ['./tsconfig.json', './tsconfig.node.json'],
   },
   plugins: ['@typescript-eslint', 'react', 'prettier', 'react-hooks'],
   rules: {
@@ -55,6 +56,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react-hooks/exhaustive-deps': 'off',
   },
+
   settings: {
     react: {
       pragma: 'React',
