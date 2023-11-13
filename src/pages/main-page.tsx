@@ -9,7 +9,7 @@ import LimitChangeToolbar from '@/components/limit-change/limit-change';
 import { useSearchQuery, useSearchQuerySetter } from '@/context/search-context';
 import { Character } from '@/types/types';
 import { ErrorButton } from '@/components/error-button/error-button';
-import { useCharactersSetter, useCharacters } from '@/context/characters-context';
+import { useCharacters, useCharactersSetter } from '@/context/characters-context';
 
 export const InputChangeHandlerContext = createContext<(value: string) => void>(() => {});
 export const SearchInputContext = createContext('');
@@ -17,7 +17,6 @@ export const SearchInputContext = createContext('');
 export default function MainPage({}: Record<string, never>) {
   const currentSearchQuery = useSearchQuery();
   const searchQuerySetter = useSearchQuerySetter();
-
   const characters = useCharacters();
   const charactersSetter = useCharactersSetter();
 

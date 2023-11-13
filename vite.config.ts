@@ -8,8 +8,9 @@ export default defineConfig({
     alias: [{ find: '@', replacement: resolve(__dirname, './src') }],
   },
   test: {
+    environment: 'jsdom',
     globals: true, // Provide global APIs for explicitness
-    setupFiles: ['src/__tests__/setup.jsdom.ts'], // correct path?
+    setupFiles: ['src/___tests___/setup.jsdom.ts'],
     coverage: {
       // Whether to include all files, including the untested ones into report.
       all: true,

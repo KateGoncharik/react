@@ -6,7 +6,7 @@ import { Pagination } from '@/components/pagination/pagination';
 
 type ResultsProps = {
   characters: Character[];
-  pageChangeHandler: (number: number) => void;
+  pageChangeHandler?: (number: number) => void;
   currentPage: number;
   maxPageCount: number;
 };
@@ -20,7 +20,7 @@ export default function Results({
   return characters.length ? (
     <div className="results-wrapper">
       <Pagination
-        pageChangeHandler={pageChangeHandler}
+        pageChangeHandler={pageChangeHandler ? pageChangeHandler : () => {}}
         currentPage={currentPage}
         maxPageCount={maxPageCount}
       />
