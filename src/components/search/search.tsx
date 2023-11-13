@@ -1,28 +1,15 @@
-import { useState } from 'react';
-import SearchInput from '../search-input/search-input';
-import SearchButton from '../search-button/search-button';
+import SearchInput from '@/components/search-input/search-input';
+import SearchButton from '@/components/search-button/search-button';
 
-type Props = {
-  inputChangeHandler: (query: string) => void;
+type SearchProps = {
   buttonClickHandler: () => void;
 };
 
-export default function Search({ inputChangeHandler, buttonClickHandler }: Props) {
-  const [hasError, setHasError] = useState(false);
-  if (hasError === true) {
-    throw new Error('Some problem occured!');
-  }
+export default function Search({ buttonClickHandler }: SearchProps) {
   return (
     <div className="search-wrapper">
-      <SearchInput inputChangeHandler={inputChangeHandler} />
+      <SearchInput />
       <SearchButton buttonClickHandler={buttonClickHandler} />
-      <button
-        onClick={() => {
-          setHasError(true);
-        }}
-      >
-        throw Error
-      </button>
     </div>
   );
 }
