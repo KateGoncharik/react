@@ -24,7 +24,8 @@
       "@/components/*": ["src/components/*"],
       "@/pages/*": ["src/pages/*"],
       "@/services/*": ["src/services/*"],
-      "@/lib/*": ["src/lib/*"]
+      "@/lib/*": ["src/lib/*"],
+      "@/___tests___/*": ["src/___tests___/*"]
     }
   },
 

@@ -1,6 +1,18 @@
 import { Character } from '@/types/types';
 
-export const characters: Character[] = [
+export const characterMock: Character = {
+  created: '2017-11-04T20:03:34.737Z',
+  gender: 'Male',
+  id: 8,
+  location: 'Citadel of Ricks',
+  name: 'Adjudicator Rick',
+  origin: 'unknown',
+  species: 'Human',
+  status: 'Dead',
+  type: '',
+};
+
+export const charactersMock: Character[] = [
   {
     created: '2017-11-04T18:48:46.250Z',
     gender: 'Male',
