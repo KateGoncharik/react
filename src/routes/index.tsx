@@ -4,7 +4,7 @@ import MainPage from '@/pages/main-page';
 import ErrorPage from '@/pages/error-page';
 import ItemDetails from '@/components/item-details/item-details';
 
-export const router = createBrowserRouter([
+export const routes = [
   {
     path: '/:page?',
     element: <MainPage />,
@@ -16,4 +16,5 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+export const router = createBrowserRouter(routes);

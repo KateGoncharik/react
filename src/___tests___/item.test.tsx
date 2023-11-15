@@ -1,30 +1,62 @@
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, RouterProvider } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { userEvent } from '@testing-library/user-event';
+import { setupServer } from 'msw/node';
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
-import { characters } from '@/___tests___/mocks/mocks';
-import Results from '@/components/results/results';
+import { characterMock } from './mocks/mocks';
+import { handlers } from '@/___tests___/msw/handlers';
+import { SearchQueryProvider } from '@/context/search-context';
+import { CharactersProvider } from '@/context/characters-context';
+import Item from '@/components/item/item';
+import { router } from '@/routes';
 
-describe('Characters', () => {
-  it('should display an appropriate message if no items are present', () => {
-    render(
-      <MemoryRouter>
-        <Results characters={[]} currentPage={1} maxPageCount={1} />,
-      </MemoryRouter>
-    );
+const server = setupServer(...handlers);
 
-    expect(screen.getByText('No data'));
+describe('CharacterListItem', () => {
+  beforeAll(() => {
+    server.listen({ onUnhandledRequest: 'error' });
   });
 
-  it('should render the specified number of items', () => {
+  afterAll(() => {
+    server.close();
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+    vi.restoreAllMocks();
+  });
+
+  it('should render the relevant card data', () => {
     render(
       <MemoryRouter>
-        <Results characters={characters} currentPage={1} maxPageCount={1} />
+        <Item character={characterMock} />,
       </MemoryRouter>
     );
 
-    const cards = screen.getAllByRole('article');
+    expect(
+      screen.getByRole('heading', { level: 2, name: /adjudicator rick/i })
+    ).toBeInTheDocument();
+  });
 
-    expect(cards).toHaveLength(3);
+  it('should open a detailed card component upon user click on the card', async () => {
+    render(
+      <SearchQueryProvider>
+        <CharactersProvider>
+          <RouterProvider router={router} />
+        </CharactersProvider>
+      </SearchQueryProvider>
+    );
+
+    const item = await screen.findByRole('heading', { level: 2, name: /adjudicator rick/i });
+    expect(item).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(item);
+
+    const detailedCard = await screen.findByTestId('details-item');
+
+    expect(detailedCard).toBeInTheDocument();
   });
 });

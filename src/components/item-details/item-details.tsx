@@ -11,21 +11,21 @@ export default function ItemDetails(): ReactElement {
 
   useEffect(() => {
     if (itemId) {
-      const getFilm = async () => {
-        const characterFromResponse = await getCharacterById(itemId);
+      const getCharacter = async () => {
+        const characterFromResponse = await getCharacterById(Number(itemId));
         setCharacter(characterFromResponse);
       };
-      getFilm();
+      getCharacter();
     }
   }, [itemId]);
 
   if (character) {
-    const src = `https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg`; // ?
+    const src = `https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg`;
 
     return (
-      <div className="item-details">
+      <article className="item-details" data-testid="details-item">
         <img className="item-details-image" src={src} />
-        <div className="item-name">Name: {character.name}</div>
+        <h2 className="item-name">Name: {character.name}</h2>
         <div className="item-details-description">Status: {character.status}</div>
         <div className="item-details-description">Species: {character.species}</div>
         <div className="item-details-description">Gender: {character.gender}</div>
@@ -34,9 +34,8 @@ export default function ItemDetails(): ReactElement {
         <Link to={`/${page}`} className="close">
           close
         </Link>
-      </div>
+      </article>
     );
   }
-
   return <></>;
 }

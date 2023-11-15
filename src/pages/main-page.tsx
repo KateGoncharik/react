@@ -46,7 +46,7 @@ export default function MainPage({}: Record<string, never>) {
 
     setPage(nextPage);
   }
-
+  // TODO rename
   function getCharacters(query: string, page: number, limit: number, isNewQuery: boolean) {
     getSpecifiedCharacters({ query, page, limit })
       .then((response: Response) => {
