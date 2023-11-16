@@ -10,6 +10,7 @@ import { useSearchQuery, useSearchQuerySetter } from '@/context/search-context';
 import { Character } from '@/types/types';
 import { ErrorButton } from '@/components/error-button/error-button';
 import { useCharacters, useCharactersSetter } from '@/context/characters-context';
+import { usePagination, usePaginationSetter } from '@/context/pagination-context';
 
 export const InputChangeHandlerContext = createContext<(value: string) => void>(() => {});
 export const SearchInputContext = createContext('');
@@ -20,7 +21,9 @@ export default function MainPage({}: Record<string, never>) {
   const characters = useCharacters();
   const charactersSetter = useCharactersSetter();
 
-  const [page, setPage] = useState(1);
+  const paginationPage = usePagination();
+  const paginationSetter = usePaginationSetter();
+
   const [limit, setLimit] = useState(40);
   const [maxPageCount, setMaxPageCount] = useState(0);
 
@@ -29,22 +32,21 @@ export default function MainPage({}: Record<string, never>) {
   }
 
   useEffect(() => {
-    getCharacters(currentSearchQuery, page, limit, false);
-  }, [page, limit]);
+    getCharacters(currentSearchQuery, paginationPage, limit, false);
+  }, [paginationPage, limit]);
 
   async function buttonClickHandler() {
     setItem('lastSearchQuery', currentSearchQuery);
-    getCharacters(currentSearchQuery, page, limit, true);
+    getCharacters(currentSearchQuery, paginationPage, limit, true);
   }
 
-  function pageChangeHandler(num: number) {
-    const nextPage = num > 1 && num <= maxPageCount ? num : 1;
-
-    if (nextPage === page) {
+  function pageChangeHandler(currentPage: number) {
+    const nextPage = currentPage > 1 && currentPage <= maxPageCount ? currentPage : 1;
+    if (nextPage === paginationPage) {
       return;
     }
 
-    setPage(nextPage);
+    paginationSetter(nextPage);
   }
   // TODO rename
   function getCharacters(query: string, page: number, limit: number, isNewQuery: boolean) {
@@ -75,7 +77,7 @@ export default function MainPage({}: Record<string, never>) {
   }
 
   function setFirstPage() {
-    setPage(1);
+    paginationSetter(1);
   }
   const [hasError, setHasError] = useState(false);
   if (hasError === true) {
@@ -95,7 +97,7 @@ export default function MainPage({}: Record<string, never>) {
           <Results
             characters={characters}
             pageChangeHandler={pageChangeHandler}
-            currentPage={page}
+            currentPage={paginationPage}
             maxPageCount={maxPageCount}
           />
           <Outlet />
