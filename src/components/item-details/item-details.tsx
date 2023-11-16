@@ -37,5 +37,9 @@ export default function ItemDetails(): ReactElement {
       </article>
     );
   }
-  return <></>;
+  return (
+    <>
+      <p>Not found</p>
+    </>
+  );
 }
