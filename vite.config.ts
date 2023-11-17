@@ -17,7 +17,7 @@ export default defineConfig({
       // Coverage Providers: "v8" or "istanbul" or your custom provider
       provider: 'v8',
       // Coverage reporters to use
-      reporter: ['text', 'html'],
+      reporter: ['text'],
       // Coverage folder location
       reportsDirectory: './tests/unit/coverage',
       // List of files included in coverage as glob patterns
