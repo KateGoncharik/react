@@ -1,19 +1,28 @@
 import { ReactNode } from 'react';
 
 import Item from '@/components/item/item';
-import type { Character, ResultsProps } from 'src/types/types';
-import { Pagination } from '../pagination/pagination';
+import type { Character } from '@/types/types';
+import { Pagination } from '@/components/pagination/pagination';
+
+type ResultsProps = {
+  characters: Character[];
+  pageChangeHandler?: (number: number) => void;
+  currentPage: number;
+  maxPageCount: number;
+};
 
 export default function Results({
   characters,
-  paginationNextHandler,
-  paginationPrevHandler,
+  pageChangeHandler,
+  currentPage,
+  maxPageCount,
 }: ResultsProps): ReactNode {
-  return characters ? (
+  return characters.length ? (
     <div className="results-wrapper">
       <Pagination
-        paginationNextHandler={paginationNextHandler}
-        paginationPrevHandler={paginationPrevHandler}
+        pageChangeHandler={pageChangeHandler ? pageChangeHandler : () => {}}
+        currentPage={currentPage}
+        maxPageCount={maxPageCount}
       />
       {characters.map((character: Character) => {
         return <Item key={`${character.name}-${character.id}`} character={character} />;

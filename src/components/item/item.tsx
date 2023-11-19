@@ -1,15 +1,23 @@
-import { ReactElement } from 'react';
+import { JSX } from 'react';
+import { Link } from 'react-router-dom';
+import { Character } from '@/types/types';
 
-import { ItemProps } from 'src/types/types';
+type ItemProps = {
+  character: Character;
+};
 
-export default function Item({ character }: ItemProps): ReactElement {
+export default function Item({ character }: ItemProps): JSX.Element {
   const src = `https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg`;
+  const { name, status, species } = character;
+
   return (
-    <div className="results-item">
-      <div className="item-name">Name: {character.name}</div>
-      <div className="item-url">Status: {character.status}</div>
-      <div className="item-species">Species: {character.species}</div>
-      <img className="item-image" src={src} />
-    </div>
+    <Link className="item-link" to={`details/${character.id}`}>
+      <article className="results-item">
+        <h2 className="item-name">{name}</h2>
+        <div className="item-description">Status: {status}</div>
+        <div className="item-description">Species: {species}</div>
+        <img className="item-image" src={src} />
+      </article>
+    </Link>
   );
 }

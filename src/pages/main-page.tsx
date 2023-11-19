@@ -1,75 +1,74 @@
 import { useState, useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import Search from '@/components/search/search';
+import { Character } from '@/types/types';
 import Results from '@/components/results/results';
-import { getItem, setItem } from '@/lib/local-storage';
-import { getSpecifiedCharacters } from '@/services/catalog-service';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
+import { ErrorButton } from '@/components/error-button/error-button';
+import { usePagination, usePaginationSetter } from '@/context/pagination-context';
+import { useFetchCharactersQuery } from '@/api/charactersApi';
+import { useSelector } from 'react-redux';
+import { selectSearchQuery } from '@/features/search-slice';
 
-type Character = {
-  name: string;
-  url: string;
-};
 export default function MainPage({}: Record<string, never>) {
-  const [inputValue, setInputValue] = useState(getItem('lastSearchQuery') ?? '');
-  const [characters, setCharacters] = useState<Character[] | null>(null);
-  const [page, setPage] = useState(1);
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const searchQuery = useSelector(selectSearchQuery);
+
+  const paginationPage = usePagination();
+  const paginationSetter = usePaginationSetter();
+
   const [limit, setLimit] = useState(40);
 
-  function inputChangeHandler(value: string) {
-    setInputValue(value);
+  function pageChangeHandler(currentPage: number) {
+    const nextPage = currentPage > 1 && currentPage <= 1 ? currentPage : 1;
+    if (nextPage === paginationPage) {
+      return;
+    }
+
+    paginationSetter(nextPage);
   }
+
+  const { data } = useFetchCharactersQuery({
+    name: searchQuery,
+    page: paginationPage,
+    limit,
+  });
 
   useEffect(() => {
-    const lastSearchQuery = getItem('lastSearchQuery');
-    getSpecifiedCharacters({ query: lastSearchQuery, page, limit }).then(
-      (characters: Character[]) => {
-        setCharacters(characters);
-      }
-    );
-  }, [page, limit]);
-
-  function buttonClickHandler() {
-    setItem('lastSearchQuery', inputValue);
-    getSpecifiedCharacters({ query: inputValue, page, limit }).then((characters: Character[]) => {
-      setCharacters(characters);
-      setFirstPage();
-    });
-  }
+    setCharacters(data ? data : []);
+  }, [data]);
 
   function limitChangeHandler(newLimit: number) {
     setLimit(newLimit);
   }
 
-  function paginationNextHandler() {
-    // TODO check wether we have next
-    setPage(page + 1);
-  }
-
-  function paginationPrevHandler() {
-    if (page === 1) {
-      return;
-    }
-    setPage(page - 1);
-  }
-
   function setFirstPage() {
-    setPage(1);
+    paginationSetter(1);
+  }
+  const [hasError, setHasError] = useState(false);
+  if (hasError === true) {
+    throw new Error('Some problem occured!');
   }
 
   return (
     <>
-      <Search inputChangeHandler={inputChangeHandler} buttonClickHandler={buttonClickHandler} />
+      <Search />
       <LimitChangeToolbar
         limitChangeHandler={limitChangeHandler}
         limitFromMain={limit}
         setFirstPage={setFirstPage}
       />
-      <Results
-        characters={characters}
-        paginationNextHandler={paginationNextHandler}
-        paginationPrevHandler={paginationPrevHandler}
-      />
+      <div className="results-and-item-wrapper">
+        <Results
+          characters={characters}
+          pageChangeHandler={pageChangeHandler}
+          currentPage={paginationPage}
+          maxPageCount={1}
+        />
+        <Outlet />
+        <ErrorButton handler={setHasError} />
+      </div>
     </>
   );
 }

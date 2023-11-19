@@ -2,7 +2,7 @@
   width: 33%;
   min-height: 200px;
   margin: 2em;
-  padding: 1em;
+  padding: 0.5em;
   background-color: var(--input-hover);
   font-size: 1.4em;
   border-radius: 0.7em;
@@ -21,9 +21,7 @@
   box-shadow: -1px 20px 35px rgb(87, 2, 30);
 }
 
-.item-name,
-.item-url,
-.item-species {
+.item-description {
   color: var(--button);
   margin: 0.2em;
 }
@@ -32,12 +30,26 @@
   font-weight: 700;
   text-transform: capitalize;
 }
-.item-url {
-  font-size: 0.7em;
-}
 
 .item-image {
   margin: 1em;
   max-width: 70%;
   max-height: 50%;
+}
+
+@media (max-width: 1200px) {
+  .results-item {
+    margin: 0.5em;
+  }
+}
+
+@media (max-width: 1000px) {
+  .results-item {
+    width: 60%;
+    font-size: 1em;
+  }
+
+  .item-description {
+    display: none;
+  }
 }

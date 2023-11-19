@@ -1,10 +1,10 @@
 import { getItem } from '@/lib/local-storage';
 
-type Props = {
-  inputChangeHandler: (query: string) => void;
+type SearchInputProps = {
+  inputChangeHandler: (value: string) => void;
 };
 
-export default function SearchInput({ inputChangeHandler }: Props) {
+export default function SearchInput({ inputChangeHandler }: SearchInputProps) {
   return (
     <input
       className="search-input"
