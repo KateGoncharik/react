@@ -1,23 +1,19 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 import { Character } from '@/types/types';
-import { getCharacterById } from '@/services/catalog-service';
+import { useFetchCharacterByIdQuery } from '@/api/characterByIdApi';
 
 export default function ItemDetails(): ReactElement {
   const [character, setCharacter] = useState<Character | null>(null);
   const { itemId } = useParams();
   const { page } = useParams();
 
-  useEffect(() => {
-    if (itemId) {
-      const getCharacter = async () => {
-        const characterFromResponse = await getCharacterById(Number(itemId));
-        setCharacter(characterFromResponse);
-      };
-      getCharacter();
-    }
-  }, [itemId]);
+  const { data } = useFetchCharacterByIdQuery({ id: itemId });
+
+  if (data) {
+    setCharacter(data);
+  }
 
   if (character) {
     const src = `https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg`;
