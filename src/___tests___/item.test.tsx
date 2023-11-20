@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
 
 import { characterMock } from './mocks/mocks';
 import { handlers } from '@/___tests___/msw/handlers';
-import { SearchQueryProvider } from '@/context/search-context';
-import { CharactersProvider } from '@/context/characters-context';
 import Item from '@/components/item/item';
 import { router } from '@/routes';
 
@@ -42,11 +42,9 @@ describe('CharacterListItem', () => {
 
   it('should open a detailed card component upon user click on the card', async () => {
     render(
-      <SearchQueryProvider>
-        <CharactersProvider>
-          <RouterProvider router={router} />
-        </CharactersProvider>
-      </SearchQueryProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     );
 
     const item = await screen.findByRole('heading', { level: 2, name: /adjudicator rick/i });

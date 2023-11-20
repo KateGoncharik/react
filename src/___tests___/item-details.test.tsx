@@ -2,9 +2,12 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import { render, screen, within } from '@testing-library/react';
 import { setupServer } from 'msw/node';
+import { store } from '@/store';
+
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { handlers } from '@/___tests___/msw/handlers';
+import { Provider } from 'react-redux';
 
 import ItemDetails from '@/components/item-details/item-details';
 
@@ -33,7 +36,11 @@ describe('Item details', () => {
       ],
       { initialEntries: ['/details/8'] }
     );
-    render(<RouterProvider router={router} />);
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    );
 
     const item = await screen.findByTestId('details-item');
     expect(item).toBeInTheDocument();
