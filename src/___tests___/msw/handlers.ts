@@ -13,7 +13,7 @@ export const handlers = [
     return HttpResponse.json(characterMock, { headers: {}, status: 200 });
   }),
   http.get(/rickandmortyapi\.com/, () => {
-    console.error('IMAGE CDN');
+    console.error('wrong way');
 
     return new HttpResponse(null, { status: 404 });
   }),

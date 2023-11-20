@@ -1,22 +1,23 @@
 import { ReactNode } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {
+  goToPrevPage,
+  goToNextPage,
+  selectCurrentPage,
+  selectMaxPageCount,
+} from '@/features/search-slice';
 
-type PaginationProps = {
-  pageChangeHandler: (number: number) => void;
-  currentPage: number;
-  maxPageCount: number;
-};
-export function Pagination({
-  pageChangeHandler,
-  currentPage,
-  maxPageCount,
-}: PaginationProps): ReactNode {
+export function Pagination(): ReactNode {
+  const dispatch = useDispatch();
+  const maxPageCount = useSelector(selectMaxPageCount);
+  const currentPage = useSelector(selectCurrentPage);
   return (
     <div className="pagination">
       <Link className={'pagination-link'} to={`/${currentPage === 1 ? '' : currentPage - 1}`}>
         <button
           className="pagination-button"
-          onClick={() => pageChangeHandler(currentPage - 1)}
+          onClick={() => dispatch(goToPrevPage())}
           disabled={currentPage === 1}
         >
           {currentPage === 1 ? '' : currentPage - 1}
@@ -30,7 +31,7 @@ export function Pagination({
       >
         <button
           className="pagination-button"
-          onClick={() => pageChangeHandler(currentPage + 1)}
+          onClick={() => dispatch(goToNextPage())}
           disabled={currentPage === maxPageCount}
         >
           {currentPage === maxPageCount ? '' : currentPage + 1}

@@ -6,37 +6,36 @@ import { Character } from '@/types/types';
 import Results from '@/components/results/results';
 import LimitChangeToolbar from '@/components/limit-change/limit-change';
 import { ErrorButton } from '@/components/error-button/error-button';
-import { usePagination, usePaginationSetter } from '@/context/pagination-context';
 import { useFetchCharactersQuery } from '@/api/charactersApi';
-import { useSelector } from 'react-redux';
-import { selectSearchQuery } from '@/features/search-slice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  selectSearchQuery,
+  selectCurrentPage,
+  setCurrentPage,
+  setMaxPageCount,
+} from '@/features/search-slice';
 
 export default function MainPage({}: Record<string, never>) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const searchQuery = useSelector(selectSearchQuery);
+  const dispatch = useDispatch();
+  const currentPaginationPage = useSelector(selectCurrentPage);
 
-  const paginationPage = usePagination();
-  const paginationSetter = usePaginationSetter();
-
-  const [limit, setLimit] = useState(40);
-
-  function pageChangeHandler(currentPage: number) {
-    const nextPage = currentPage > 1 && currentPage <= 1 ? currentPage : 1;
-    if (nextPage === paginationPage) {
-      return;
-    }
-
-    paginationSetter(nextPage);
-  }
+  const [limit, setLimit] = useState(30);
 
   const { data } = useFetchCharactersQuery({
     name: searchQuery,
-    page: paginationPage,
+    page: currentPaginationPage,
     limit,
   });
 
   useEffect(() => {
-    setCharacters(data ? data : []);
+    setCharacters(data?.characters ? data.characters : []);
+    if (data?.totalCount) {
+      const maxPageCount = Math.ceil(data.totalCount / limit);
+      dispatch(setMaxPageCount({ maxPageCount: maxPageCount }));
+    }
   }, [data]);
 
   function limitChangeHandler(newLimit: number) {
@@ -44,7 +43,7 @@ export default function MainPage({}: Record<string, never>) {
   }
 
   function setFirstPage() {
-    paginationSetter(1);
+    setCurrentPage(1);
   }
   const [hasError, setHasError] = useState(false);
   if (hasError === true) {
@@ -60,12 +59,7 @@ export default function MainPage({}: Record<string, never>) {
         setFirstPage={setFirstPage}
       />
       <div className="results-and-item-wrapper">
-        <Results
-          characters={characters}
-          pageChangeHandler={pageChangeHandler}
-          currentPage={paginationPage}
-          maxPageCount={1}
-        />
+        <Results characters={characters} />
         <Outlet />
         <ErrorButton handler={setHasError} />
       </div>
