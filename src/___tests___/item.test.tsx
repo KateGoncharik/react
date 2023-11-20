@@ -31,7 +31,9 @@ describe('CharacterListItem', () => {
   it('should render the relevant card data', () => {
     render(
       <MemoryRouter>
-        <Item character={characterMock} />,
+        <Provider store={store}>
+          <Item character={characterMock} />,
+        </Provider>
       </MemoryRouter>
     );
 
