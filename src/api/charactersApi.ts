@@ -14,7 +14,12 @@ export const charactersApi = createApi({
         return `?q=${nameQuery}${pageQuery}${limitQuery}`;
       },
     }),
+    fetchCharacterById: builder.query<Character, { id?: string }>({
+      query: ({ id }) => {
+        return `/${id}`;
+      },
+    }),
   }),
 });
 
-export const { useFetchCharactersQuery } = charactersApi;
+export const { useFetchCharactersQuery, useFetchCharacterByIdQuery } = charactersApi;
