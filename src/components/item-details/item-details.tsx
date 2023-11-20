@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 import { useFetchCharacterByIdQuery } from '@/api/charactersApi';
+import { getItemImageUrl } from '@/lib/get-item-image-url';
 
 export default function ItemDetails(): ReactElement {
   const { itemId } = useParams();
@@ -10,7 +11,7 @@ export default function ItemDetails(): ReactElement {
   const { data } = useFetchCharacterByIdQuery({ id: itemId });
 
   if (data) {
-    const src = `https://rickandmortyapi.com/api/character/avatar/${data.id}.jpeg`;
+    const src = getItemImageUrl(data.id);
 
     return (
       <article className="item-details" data-testid="details-item">

@@ -1,13 +1,15 @@
 import { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { Character } from '@/types/types';
+import { getItemImageUrl } from '@/lib/get-item-image-url';
 
 type ItemProps = {
   character: Character;
 };
 
 export default function Item({ character }: ItemProps): JSX.Element {
-  const src = `https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg`;
+  const src = getItemImageUrl(character.id);
+
   const { name, status, species } = character;
 
   return (
