@@ -32,6 +32,7 @@ export default function MainPage({}: Record<string, never>) {
 
   useEffect(() => {
     setCharacters(data?.characters ? data.characters : []);
+    setFirstPage();
     if (data?.totalCount) {
       const maxPageCount = Math.ceil(data.totalCount / limit);
       dispatch(setMaxPageCount({ maxPageCount: maxPageCount }));
@@ -43,7 +44,7 @@ export default function MainPage({}: Record<string, never>) {
   }
 
   function setFirstPage() {
-    setCurrentPage(1);
+    dispatch(setCurrentPage({ currentPage: 1 }));
   }
   const [hasError, setHasError] = useState(false);
   if (hasError === true) {
