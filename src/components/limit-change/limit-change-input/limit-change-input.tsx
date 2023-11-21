@@ -1,12 +1,13 @@
+import { useSelector } from 'react-redux';
+import { selectLimit } from '@/features/search-slice';
+
 type LimitChangeInputProps = {
   inputChangeHandler: (limit: number) => void;
-  limitFromMain: number;
 };
 
-export default function LimitChangeInput({
-  inputChangeHandler,
-  limitFromMain,
-}: LimitChangeInputProps) {
+export default function LimitChangeInput({ inputChangeHandler }: LimitChangeInputProps) {
+  const limit = useSelector(selectLimit);
+
   function limitInputChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const userValue = Number(e.target.value);
     if (isNaN(userValue)) {
@@ -18,7 +19,7 @@ export default function LimitChangeInput({
   return (
     <input
       className="limit-change-input"
-      defaultValue={limitFromMain}
+      defaultValue={limit}
       onChange={(e) => {
         limitInputChangeHandler(e);
       }}

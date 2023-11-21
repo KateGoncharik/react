@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import {
   goToPrevPage,
   goToNextPage,
-  selectCurrentPage,
+  selectLimit,
   selectMaxPageCount,
 } from '@/features/search-slice';
 
 export function Pagination(): ReactNode {
   const dispatch = useDispatch();
   const maxPageCount = useSelector(selectMaxPageCount);
-  const currentPage = useSelector(selectCurrentPage);
+  const currentPage = useSelector(selectLimit);
   return (
     <div className="pagination">
       <Link className={'pagination-link'} to={`/${currentPage === 1 ? '' : currentPage - 1}`}>

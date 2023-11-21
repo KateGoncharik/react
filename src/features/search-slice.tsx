@@ -8,6 +8,7 @@ export const searchSlice = createSlice({
     searchQuery: getItem('lastSearchQuery'),
     currentPage: 1,
     maxPageCount: 1,
+    limit: 30,
   },
   reducers: {
     makeNewSearch: (state, action) => {
@@ -18,6 +19,9 @@ export const searchSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload.currentPage;
+    },
+    setLimit: (state, action) => {
+      state.limit = action.payload.limit;
     },
     goToNextPage: (state) => {
       state.currentPage = state.currentPage + 1;
@@ -41,8 +45,18 @@ export const selectCurrentPage = createSelector(
   (state: { search: { currentPage: number } }) => state.search,
   (search) => search.currentPage
 );
+export const selectLimit = createSelector(
+  (state: { search: { limit: number } }) => state.search,
+  (search) => search.limit
+);
 
-export const { makeNewSearch, setMaxPageCount, setCurrentPage, goToNextPage, goToPrevPage } =
-  searchSlice.actions;
+export const {
+  makeNewSearch,
+  setLimit,
+  setMaxPageCount,
+  setCurrentPage,
+  goToNextPage,
+  goToPrevPage,
+} = searchSlice.actions;
 
 export default searchSlice.reducer;
