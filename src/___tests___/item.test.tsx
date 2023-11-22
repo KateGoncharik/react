@@ -13,7 +13,7 @@ import { router } from '@/routes';
 
 const server = setupServer(...handlers);
 
-describe('CharacterListItem', () => {
+describe('CharactersItem', () => {
   beforeAll(() => {
     server.listen({ onUnhandledRequest: 'error' });
   });
