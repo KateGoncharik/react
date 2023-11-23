@@ -1,3 +1,4 @@
+import MainPage from '@/my-pages/main-page';
 export default function Page() {
-  return <h1>Hello, Next.js!</h1>;
+  return <MainPage />;
 }
