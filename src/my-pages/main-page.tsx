@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
 
 import Search from '@/components/search/search';
 import Results from '@/components/results/results';
@@ -24,7 +23,6 @@ export default function MainPage({}: Record<string, never>) {
       <LimitChangeToolbar limitChangeHandler={limitChangeHandler} limitFromMain={limit} />
       <div className="results-and-item-wrapper">
         <Results />
-        <Outlet />
         <ErrorButton handler={setHasError} />
       </div>
     </>

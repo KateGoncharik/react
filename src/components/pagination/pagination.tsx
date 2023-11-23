@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import {
   goToPrevPage,
   goToNextPage,
@@ -14,7 +14,7 @@ export function Pagination(): ReactNode {
   const currentPage = useSelector(selectLimit);
   return (
     <div className="pagination">
-      <Link className={'pagination-link'} to={`/${currentPage === 1 ? '' : currentPage - 1}`}>
+      <Link className={'pagination-link'} href={`/${currentPage === 1 ? '' : currentPage - 1}`}>
         <button
           className="pagination-button"
           onClick={() => dispatch(goToPrevPage())}
@@ -27,7 +27,7 @@ export function Pagination(): ReactNode {
       <div className="current-page">{currentPage}</div>
       <Link
         className={'pagination-link'}
-        to={`/${currentPage === maxPageCount ? '' : currentPage + 1}`}
+        href={`/${currentPage === maxPageCount ? '' : currentPage + 1}`}
       >
         <button
           className="pagination-button"

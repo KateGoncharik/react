@@ -1,14 +1,11 @@
 import { ReactElement } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import { useFetchCharacterByIdQuery } from '@/api/charactersApi';
 import { getItemImageUrl } from '@/lib/get-item-image-url';
 
 export default function ItemDetails(): ReactElement {
-  const { itemId } = useParams();
-  const { page } = useParams();
-
-  const { data } = useFetchCharacterByIdQuery({ id: itemId });
+  const { data } = useFetchCharacterByIdQuery({ id: '8' });
 
   if (data) {
     const src = getItemImageUrl(data.id);
@@ -22,7 +19,7 @@ export default function ItemDetails(): ReactElement {
         <div className="item-details-description">Gender: {data.gender}</div>
         <div className="item-details-description">Origin: {data.origin}</div>
         <div className="item-details-description">Last seen: {data.location}</div>
-        <Link to={`/${page}`} className="close">
+        <Link href={`/${1}`} className="close">
           close
         </Link>
       </article>
