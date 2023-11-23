@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from '@reduxjs/toolkit';
-import { getItem } from '@/lib/local-storage';
 
 export const searchSlice = createSlice({
   name: 'search',
   initialState: {
-    searchQuery: getItem('lastSearchQuery'),
+    searchQuery: '',
     currentPage: 1,
     maxPageCount: 1,
     limit: 30,

@@ -15,20 +15,37 @@
     "isolatedModules": true,
     "noEmit": true,
     "noImplicitAny": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "strict": true,
     "allowJs": false,
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["src/*"],
       "@/components/*": ["src/components/*"],
-      "@/pages/*": ["src/pages/*"],
+      "@/pages/*": ["src/my-pages/*"],
       "@/services/*": ["src/services/*"],
       "@/lib/*": ["src/lib/*"],
       "@/___tests___/*": ["src/___tests___/*"]
-    }
+    },
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src",
+    ".next/types/**/*.ts",
+    "src/my-pages/error-page.tsx",
+    "src/my-pages/main-page.tsx",
+    "next.config.cjs",
+    "pages"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "exclude": ["node_modules"]
 }

@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import SearchInput from '@/components/search-input/search-input';
 import SearchButton from '@/components/search-button/search-button';
 import { makeNewSearch } from '@/features/search-slice';
-import { setItem } from '@/lib/local-storage';
 
 export default function Search() {
   const dispatch = useDispatch();
@@ -14,7 +13,6 @@ export default function Search() {
     setInputValue(value);
   }
   function buttonClickHandler() {
-    setItem('lastSearchQuery', inputValue);
     dispatch(makeNewSearch({ searchQuery: inputValue }));
   }
 
