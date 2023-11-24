@@ -34,3 +34,7 @@ export const charactersApi = createApi({
 });
 
 export const { useFetchCharactersQuery, useFetchCharacterByIdQuery } = charactersApi;
+
+export const {
+  endpoints: { fetchCharacters },
+} = charactersApi;

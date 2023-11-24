@@ -14,6 +14,7 @@ export default function LimitChangeToolbar({ limitChangeHandler }: LimitChangePr
 
   function inputChangeHandler(limitFromUser: number) {
     dispatch(setLimit({ limit: limitFromUser }));
+    // TODO: fetch on click, not in change
   }
   // TODO: remove duplication
   function setFirstPage() {
