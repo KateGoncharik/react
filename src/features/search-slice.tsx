@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 
 export const searchSlice = createSlice({
   name: 'search',
@@ -27,6 +28,14 @@ export const searchSlice = createSlice({
     },
     goToPrevPage: (state) => {
       state.currentPage = state.currentPage - 1;
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.auth,
+      };
     },
   },
 });

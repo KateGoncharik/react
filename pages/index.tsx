@@ -13,7 +13,21 @@ export default function Page({
   return <MainPage characters={characters} totalCount={totalCount} />;
 }
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  const { data } = await store.dispatch(fetchCharacters.initiate({ name: '', page: 1, limit: 20 }));
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  const { query } = context;
+  const { q, page, limit } = query;
+
+  let name = '';
+  if (typeof q === 'string') {
+    name = q;
+  }
+
+  const { data } = await store.dispatch(
+    fetchCharacters.initiate({
+      name,
+      page: page ? Number(page) : 1,
+      limit: limit ? Number(limit) : 20,
+    })
+  );
   return { props: { characters: data?.characters, totalCount: data?.totalCount } };
 });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import SearchInput from '@/components/search-input/search-input';
 import SearchButton from '@/components/search-button/search-button';
@@ -14,7 +15,14 @@ export default function Search() {
   }
   function buttonClickHandler() {
     dispatch(makeNewSearch({ searchQuery: inputValue }));
+    router.push({
+      pathname,
+      query: { q: inputValue },
+    });
   }
+
+  const router = useRouter();
+  const { pathname } = router;
 
   return (
     <div className="search-wrapper">
