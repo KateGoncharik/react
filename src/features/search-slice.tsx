@@ -12,6 +12,8 @@ export const searchSlice = createSlice({
   },
   reducers: {
     makeNewSearch: (state, action) => {
+      state.currentPage = 1;
+
       state.searchQuery = action.payload.searchQuery;
     },
     setMaxPageCount: (state, action) => {

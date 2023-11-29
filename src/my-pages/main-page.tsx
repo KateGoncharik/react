@@ -12,12 +12,6 @@ type MainProps = {
 };
 
 export default function MainPage({ characters, totalCount }: MainProps) {
-  const [limit, setLimit] = useState(30);
-
-  function limitChangeHandler(newLimit: number) {
-    setLimit(newLimit);
-  }
-
   const [hasError, setHasError] = useState(false);
   if (hasError === true) {
     throw new Error('Some problem occured!');
@@ -26,7 +20,7 @@ export default function MainPage({ characters, totalCount }: MainProps) {
   return (
     <>
       <Search />
-      <LimitChangeToolbar limitChangeHandler={limitChangeHandler} limitFromMain={limit} />
+      <LimitChangeToolbar />
       <div className="results-and-item-wrapper">
         <Results characters={characters} totalCount={totalCount} />
         <ErrorButton handler={setHasError} />

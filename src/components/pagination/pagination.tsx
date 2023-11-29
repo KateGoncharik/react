@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   goToPrevPage,
@@ -13,24 +12,27 @@ export function Pagination(): ReactNode {
   const dispatch = useDispatch();
   const maxPageCount = useSelector(selectMaxPageCount);
   const currentPage = useSelector(selectCurrentPage);
-
   const router = useRouter();
   const { pathname, query } = router;
 
   function handlePageChange(direction: string, page: string) {
-    router.push({
-      pathname,
-      query: { ...query, page },
-    });
     if (direction === 'prev') {
       dispatch(goToPrevPage());
+      router.push({
+        pathname,
+        query: { ...query, page },
+      });
     } else {
       dispatch(goToNextPage());
+      router.push({
+        pathname,
+        query: { ...query, page },
+      });
     }
   }
+
   return (
     <div className="pagination">
-      {/* <Link className={'pagination-link'} href={`/${currentPage === 1 ? '' : currentPage - 1}`}> */}
       <button
         className="pagination-button"
         onClick={() => handlePageChange('prev', currentPage === 1 ? '' : `${currentPage - 1}`)}
@@ -38,13 +40,9 @@ export function Pagination(): ReactNode {
       >
         {currentPage === 1 ? '' : currentPage - 1}
       </button>
-      {/* </Link> */}
 
       <div className="current-page">{currentPage}</div>
-      {/* <Link
-        className={'pagination-link'}
-        href={`/${currentPage === maxPageCount ? '' : currentPage + 1}`}
-      > */}
+
       <button
         className="pagination-button"
         onClick={() =>
@@ -54,7 +52,6 @@ export function Pagination(): ReactNode {
       >
         {currentPage === maxPageCount ? '' : currentPage + 1}
       </button>
-      {/* </Link> */}
     </div>
   );
 }

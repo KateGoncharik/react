@@ -1,37 +1,36 @@
 import LimitChangeInput from './limit-change-input/limit-change-input';
 import LimitChangeButton from './limit-change-button/limit-change-button';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage, setLimit, selectLimit } from '@/features/search-slice';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
-type LimitChangeProps = {
-  limitChangeHandler: (limit: number) => void;
-  limitFromMain: number;
-};
+import { setLimit, selectLimit } from '@/features/search-slice';
 
-export default function LimitChangeToolbar({ limitChangeHandler }: LimitChangeProps) {
+export default function LimitChangeToolbar() {
   const dispatch = useDispatch();
   const limit = useSelector(selectLimit);
-
+  const [inputValue, setInputValue] = useState(limit);
+  const router = useRouter();
+  const { pathname, query } = router;
   function inputChangeHandler(limitFromUser: number) {
-    dispatch(setLimit({ limit: limitFromUser }));
-    // TODO: fetch on click, not in change and fix
+    setInputValue(limitFromUser);
   }
-  // TODO: remove duplication
-  function setFirstPage() {
-    dispatch(setCurrentPage({ currentPage: 1 }));
-  }
-  function updateLimit() {
+
+  function updateLimit(currentLimit: number) {
     if (limit < 1) {
       return;
     }
-    limitChangeHandler(limit);
-    setFirstPage();
+    dispatch(setLimit({ limit: currentLimit }));
+    router.push({
+      pathname,
+      query: { ...query, limit },
+    });
   }
 
   return (
     <div className="search-wrapper">
       <LimitChangeInput inputChangeHandler={inputChangeHandler} />
-      <LimitChangeButton buttonClickHandler={updateLimit} />
+      <LimitChangeButton buttonClickHandler={() => updateLimit(inputValue)} />
     </div>
   );
 }

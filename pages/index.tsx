@@ -1,5 +1,5 @@
 import MainPage from '@/my-pages/main-page';
-import { fetchCharacters } from '@/api/charactersApi';
+import { fetchCharacters, charactersApi } from '@/api/charactersApi';
 import { wrapper } from '@/store/';
 import { Character } from '@/types/types';
 
@@ -21,7 +21,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
   if (typeof q === 'string') {
     name = q;
   }
-
   const { data } = await store.dispatch(
     fetchCharacters.initiate({
       name,
@@ -29,5 +28,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
       limit: limit ? Number(limit) : 20,
     })
   );
+  await Promise.all(store.dispatch(charactersApi.util.getRunningQueriesThunk()));
+
   return { props: { characters: data?.characters, totalCount: data?.totalCount } };
 });

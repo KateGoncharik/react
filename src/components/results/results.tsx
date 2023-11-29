@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { selectLimit, setCurrentPage, setMaxPageCount } from '@/features/search-slice';
+import { selectLimit, setMaxPageCount } from '@/features/search-slice';
 
 import Item from '@/components/item/item';
 import type { Character } from '@/types/types';
@@ -16,15 +16,9 @@ type ResultsProps = {
 
 export default function Results({ characters, totalCount }: ResultsProps): ReactNode {
   const dispatch = useDispatch();
-
   const limit = useSelector(selectLimit);
 
-  function setFirstPage() {
-    dispatch(setCurrentPage({ currentPage: 1 }));
-  }
-
   useEffect(() => {
-    setFirstPage();
     if (totalCount) {
       const maxPageCount = Math.ceil(totalCount / limit);
       dispatch(setMaxPageCount({ maxPageCount: maxPageCount }));
