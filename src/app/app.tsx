@@ -1,12 +1,10 @@
-import MainPage from '@/pages/main-page';
-import ErrorBoundary from '@/components/error-boundary/error-boundary';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
 
 export default function App() {
   return (
-    <div className="wrapper">
-      <ErrorBoundary>
-        <MainPage />
-      </ErrorBoundary>
-    </div>
+    <Provider store={store}>
+      <div>Hi</div>
+    </Provider>
   );
 }

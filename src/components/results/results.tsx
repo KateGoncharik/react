@@ -1,20 +1,33 @@
 import { ReactNode } from 'react';
+import { useEffect } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+
+import { selectLimit, setMaxPageCount } from '@/features/search-slice';
 
 import Item from '@/components/item/item';
-import type { Character, ResultsProps } from 'src/types/types';
-import { Pagination } from '../pagination/pagination';
+import type { Character } from '@/types/types';
+import { Pagination } from '@/components/pagination/pagination';
 
-export default function Results({
-  characters,
-  paginationNextHandler,
-  paginationPrevHandler,
-}: ResultsProps): ReactNode {
-  return characters ? (
+type ResultsProps = {
+  characters: Character[];
+  totalCount: number;
+};
+
+export default function Results({ characters, totalCount }: ResultsProps): ReactNode {
+  const dispatch = useDispatch();
+  const limit = useSelector(selectLimit);
+
+  useEffect(() => {
+    if (totalCount) {
+      const maxPageCount = Math.ceil(totalCount / limit);
+      dispatch(setMaxPageCount({ maxPageCount: maxPageCount }));
+    }
+  }, [characters]);
+
+  return characters?.length ? (
     <div className="results-wrapper">
-      <Pagination
-        paginationNextHandler={paginationNextHandler}
-        paginationPrevHandler={paginationPrevHandler}
-      />
+      <Pagination />
       {characters.map((character: Character) => {
         return <Item key={`${character.name}-${character.id}`} character={character} />;
       })}
