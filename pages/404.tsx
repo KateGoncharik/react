@@ -1,3 +1,3 @@
 export default function NotFoundPage() {
-  return <>Some problem occured!</>;
+  return <>Some problem occured! Go to the main page</>;
 }
