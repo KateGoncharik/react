@@ -10,9 +10,7 @@
     "plugin:react/recommended",
     "prettier",
     "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended",
-    "plugin:@next/next/recommended",
-    "next"
+    "plugin:prettier/recommended"
   ],
   "overrides": [
     {
@@ -51,9 +49,6 @@
       "react": {
         "pragma": "React",
         "version": "detect"
-      },
-      "next": {
-        "rootDir": "/"
       }
     }
   },

@@ -21,27 +21,11 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["src/*"],
-      "@/components/*": ["src/components/*"],
-      "@/pages/*": ["src/my-pages/*"],
-      "@/services/*": ["src/services/*"],
-      "@/lib/*": ["src/lib/*"],
-      "@/___tests___/*": ["src/___tests___/*"]
+      "@/components/*": ["src/components/*"]
     },
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "incremental": true
   },
-  "include": [
-    "src",
-    ".next/types/**/*.ts",
-    "src/my-pages/error-page.tsx",
-    "src/my-pages/main-page.tsx",
-    "next.config.cjs",
-    "pages"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "./tsconfig.node.json"
