@@ -1,10 +1,9 @@
-import Form from '@/pages/form';
-
+import { Link } from 'react-router-dom';
 export default function MainPage() {
   return (
     <>
       <h1>Hello! This is the main page</h1>
-      <Form />
+      <Link to="/form">Checkout form!</Link>
     </>
   );
 }

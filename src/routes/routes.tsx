@@ -8,12 +8,10 @@ export const routes = [
     path: '/',
     element: <MainPage />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        path: 'form',
-        element: <Form />,
-      },
-    ],
+  },
+  {
+    path: 'form',
+    element: <Form />,
   },
 ];
 export const router = createBrowserRouter(routes);

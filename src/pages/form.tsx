@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewSubmit, selectSubmitts } from '@/features/form-slice';
+import { Link } from 'react-router-dom';
 
 type Inputs = {
   example: string;
@@ -11,7 +12,7 @@ export default function Form() {
   const {
     register,
     handleSubmit,
-    watch,
+
     formState: { errors },
   } = useForm<Inputs>();
   const dispatch = useDispatch();
@@ -20,10 +21,10 @@ export default function Form() {
     dispatch(addNewSubmit(data));
   };
 
-  console.log(watch('example')); // watch input value by passing the name of it
-
   return (
     <>
+      <Link to="/">Go to the main!</Link>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* register your input into the hook by invoking the "register" function */}
         <input defaultValue="test" {...register('example')} />

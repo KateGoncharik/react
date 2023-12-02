@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "noImplicitAny": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "strict": true,
     "allowJs": false,
     "noFallthroughCasesInSwitch": true,
