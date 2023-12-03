@@ -17,7 +17,6 @@ export const searchSlice = createSlice({
   initialState: initialState,
   reducers: {
     addNewSubmit: (state, action) => {
-      console.log(action.payload);
       return {
         ...state,
         submitts: [

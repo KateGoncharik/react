@@ -1,0 +1,6 @@
+.submit {
+  border: 0.5px solid var(--button-background);
+  background-color: var(--input-hover);
+  display: flex;
+  justify-content: center;
+}

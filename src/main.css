@@ -1,16 +1,9 @@
-/* :root {
+:root {
   --button-color: rgb(255, 255, 255);
   --button-background: rgb(255, 107, 164);
   --button-hover: rgb(203 0 161);
   --light-grey: #eee;
   --grey: #787777;
-  --item-shadow: #74002f;
   --input-hover: #ffdcdc8f;
   --white: white;
-  --search-background: #ffd3f6;
-  --results-background: #ff9dd0;
 }
-
-.wrapper {
-  padding: 2rem;
-} */
