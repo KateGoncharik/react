@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from '@reduxjs/toolkit';
 
-type InitialStateSubmitts = { submitts: Array<Input> };
+type InitialStateSubmitts = { submitts: Array<FormData> };
 
-type Input = {
-  example: string;
-  exampleRequired: string;
+type FormData = {
+  name: string;
+  age: string;
+  email: string;
+  gender: string;
 };
 
 const initialState: InitialStateSubmitts = {
@@ -21,7 +23,12 @@ export const searchSlice = createSlice({
         ...state,
         submitts: [
           ...state.submitts,
-          { example: action.payload.example, exampleRequired: action.payload.exampleRequired },
+          {
+            name: action.payload.name,
+            age: action.payload.age,
+            email: action.payload.email,
+            gender: action.payload.gender,
+          },
         ],
       };
     },
@@ -29,7 +36,7 @@ export const searchSlice = createSlice({
 });
 
 export const selectSubmitts = createSelector(
-  (state: { form: { submitts: [Input] } }) => state.form,
+  (state: { form: { submitts: [FormData] } }) => state.form,
   (search) => search.submitts
 );
 

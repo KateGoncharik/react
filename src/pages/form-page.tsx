@@ -3,36 +3,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNewSubmit, selectSubmitts } from '@/features/form-slice';
 import { Link } from 'react-router-dom';
 import { SubmittionsList } from '@/components/submitts-list/submitts-list';
-
-type Input = {
-  example: string;
-  exampleRequired: string;
-};
+import { FormData } from './uncontrolled-form-page';
 
 export default function Form() {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
-  } = useForm<Input>();
+  } = useForm<FormData>();
   const dispatch = useDispatch();
   const submittsToShow = useSelector(selectSubmitts);
-  const onSubmit: SubmitHandler<Input> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     dispatch(addNewSubmit(data));
   };
-
+  if (errors) {
+    console.error(errors);
+  }
   return (
     <>
       <Link to="/">Go to the main!</Link>
 
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        {/* register your input into the hook by invoking the "register" function */}
-        <input defaultValue="test" {...register('example')} />
-        <input {...register('exampleRequired', { required: true, maxLength: 5 })} />
-        {errors.exampleRequired && (
-          <span>This field is required. And do not make it longer 5 chars</span>
-        )}
+        <input type={'text'} defaultValue="Kate" {...register('name')} />
+        <input type={'text'} defaultValue="20" {...register('age')} />
+        <input type={'email'} defaultValue="Kate@gmail.ru" {...register('email')} />
+        <input type={'text'} defaultValue="woman" {...register('gender')} />
+        <input type={'checkbox'} defaultChecked={true} {...register('acceptRules')} />
+        <input type={'file'} {...register('uploadImage')} />
 
         <input type="submit" />
       </form>

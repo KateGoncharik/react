@@ -1,14 +1,11 @@
 import { Submit } from '../submit/submit';
-type Input = {
-  example: string;
-  exampleRequired: string;
-};
+import { FormData } from '@/pages/uncontrolled-form-page';
 
-export function SubmittionsList({ submitts }: { submitts: Input[] }) {
+export function SubmittionsList({ submitts }: { submitts: FormData[] }) {
   return (
     <>
-      {submitts.map((submit: Input) => {
-        return <Submit key={`${submit.example}-${submit.exampleRequired}`} submit={submit} />;
+      {submitts.map((submit: FormData) => {
+        return <Submit key={`${submit.name}-${submit.age}`} submit={submit} />;
       })}
     </>
   );
