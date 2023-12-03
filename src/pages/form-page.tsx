@@ -4,13 +4,23 @@ import { addNewSubmit, selectSubmitts } from '@/features/form-slice';
 import { Link } from 'react-router-dom';
 import { SubmittionsList } from '@/components/submitts-list/submitts-list';
 import { FormData } from './uncontrolled-form-page';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const schema = yup.object().shape({
+  name: yup.string(),
+  email: yup.string().email().required(),
+  age: yup.number(),
+  acceptRules: yup.boolean(),
+  uploadImage: yup.string(),
+});
 
 export default function Form() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({ resolver: yupResolver(schema) });
   const dispatch = useDispatch();
   const submittsToShow = useSelector(selectSubmitts);
   const onSubmit: SubmitHandler<FormData> = (data) => {
