@@ -1,25 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from '@reduxjs/toolkit';
 
-type Inputs = {
+type InitialStateSubmitts = { submitts: Array<Input> };
+
+type Input = {
   example: string;
   exampleRequired: string;
 };
 
+const initialState: InitialStateSubmitts = {
+  submitts: [],
+};
+
 export const searchSlice = createSlice({
   name: 'form',
-  initialState: {
-    submitts: [],
-  },
+  initialState: initialState,
   reducers: {
     addNewSubmit: (state, action) => {
-      state.submitts = action.payload.submitts;
+      console.log(action.payload);
+      return {
+        ...state,
+        submitts: [
+          ...state.submitts,
+          { example: action.payload.example, exampleRequired: action.payload.exampleRequired },
+        ],
+      };
     },
   },
 });
 
 export const selectSubmitts = createSelector(
-  (state: { form: { submitts: [Inputs] } }) => state.form,
+  (state: { form: { submitts: [Input] } }) => state.form,
   (search) => search.submitts
 );
 

@@ -17,8 +17,9 @@ export default function Form() {
   } = useForm<Inputs>();
   const dispatch = useDispatch();
   const submittsToShow = useSelector(selectSubmitts);
+  console.log('submitts', submittsToShow);
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    dispatch(addNewSubmit(data));
+    dispatch(addNewSubmit(data)); // кладём весь объект и получаем action.payload
   };
 
   return (
