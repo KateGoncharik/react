@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewSubmit, selectSubmitts } from '@/features/form-slice';
+import { addNewSubmit, selectSentFormData } from '@/features/form-slice';
 import { Link } from 'react-router-dom';
-import { SubmittionsList } from '@/components/submitts-list/submitts-list';
+import { SentFormDataItemsList } from '@/components/submitts-list/submitts-list';
 import { FormData } from './uncontrolled-form-page';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,14 +21,19 @@ export default function Form() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver: yupResolver(schema) });
+
   const dispatch = useDispatch();
-  const submittsToShow = useSelector(selectSubmitts);
+
+  const submittsToShow = useSelector(selectSentFormData);
+
   const onSubmit: SubmitHandler<FormData> = (data) => {
     dispatch(addNewSubmit(data));
   };
+
   if (errors) {
     console.error(errors);
   }
+
   return (
     <>
       <Link to="/">Go to the main!</Link>
@@ -44,7 +49,7 @@ export default function Form() {
         <input type="submit" />
       </form>
       <div className="show-submittions">
-        <SubmittionsList submitts={submittsToShow} />
+        <SentFormDataItemsList sentFormData={submittsToShow} />
       </div>
     </>
   );

@@ -1,13 +1,13 @@
-import { FormData } from '@/pages/uncontrolled-form-page';
-export function Submit({ submit }: { submit: FormData }) {
+import { FormData } from '@/types/form-data';
+
+export function SentFormDataItem({ formData }: { formData: FormData }) {
   return (
     <div className="submit">
-      <div>Name: {submit.name}</div>
-      <div>Age: {submit.age}</div>
-      <div>Email: {submit.email}</div>
-      <div>Gender: {submit.gender}</div>
-      <div>Accept rules: {submit.acceptRules}</div>
-      <div>Uploaded image: {submit.uploadImage}</div>
+      <div>Name: {formData.name}</div>
+      <div>Age: {formData.age}</div>
+      <div>Email: {formData.email}</div>
+      <div>Gender: {formData.gender}</div>
+      <div>Accept rules: {`${formData.acceptRules}`}</div>
     </div>
   );
 }

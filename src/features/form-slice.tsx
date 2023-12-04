@@ -1,33 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from '@reduxjs/toolkit';
 
-type InitialStateSubmitts = { submitts: Array<FormData> };
+import { FormData } from '@/types/form-data';
 
-type FormData = {
-  name: string;
-  age: string;
-  email: string;
-  gender: string;
+type InitialStateSentFormData = { sentFormData: Array<FormData> };
+
+const initialState: InitialStateSentFormData = {
+  sentFormData: [],
 };
 
-const initialState: InitialStateSubmitts = {
-  submitts: [],
-};
-
-export const searchSlice = createSlice({
+export const formSlice = createSlice({
   name: 'form',
-  initialState: initialState,
+  initialState,
   reducers: {
-    addNewSubmit: (state, action) => {
+    saveNewFormData: (state, action) => {
       return {
         ...state,
-        submitts: [
-          ...state.submitts,
+        sentFormData: [
+          ...state.sentFormData,
           {
             name: action.payload.name,
             age: action.payload.age,
             email: action.payload.email,
             gender: action.payload.gender,
+            acceptRules: action.payload.acceptRules,
+            uploadImage: action.payload.uploadImage,
           },
         ],
       };
@@ -35,11 +32,11 @@ export const searchSlice = createSlice({
   },
 });
 
-export const selectSubmitts = createSelector(
-  (state: { form: { submitts: [FormData] } }) => state.form,
-  (search) => search.submitts
+export const selectSentFormData = createSelector(
+  (state: { form: { sentFormData: [FormData] } }) => state.form,
+  (form) => form.sentFormData
 );
 
-export const { addNewSubmit: addNewSubmit } = searchSlice.actions;
+export const { saveNewFormData: addNewSubmit } = formSlice.actions;
 
-export default searchSlice.reducer;
+export default formSlice.reducer;

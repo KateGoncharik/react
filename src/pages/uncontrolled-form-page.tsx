@@ -1,49 +1,73 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewSubmit, selectSubmitts } from '@/features/form-slice';
+import { useState } from 'react';
+import { addNewSubmit, selectSentFormData } from '@/features/form-slice';
 import { Link } from 'react-router-dom';
-import { SubmittionsList } from '@/components/submitts-list/submitts-list';
-import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SentFormDataItemsList } from '@/components/submitts-list/submitts-list';
+import { ValidationError } from 'yup';
 
-export type FormData = {
-  name: string;
-  age: string;
-  email: string;
-  gender: string;
-  acceptRules: boolean;
-  uploadImage: string;
-};
+import { schema } from '@/utils/schema';
+import { FormInputNames } from '@/types/enums/form-input-names';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
-  const submittionsToShow = useSelector(selectSubmitts);
-  const nameInputRef = useRef(null);
-  const ageInputRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const genderInputRef = useRef(null);
-  const acceptRulesInputRef = useRef(null);
-  const uploadImgInputRef = useRef(null);
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const submit: FormData = {
-      name: nameInputRef.current!.value,
-      age: ageInputRef.current!.value,
-      email: emailInputRef.current!.value,
-      gender: genderInputRef.current!.value,
-      acceptRules: acceptRulesInputRef.current!.value,
-      uploadImage: uploadImgInputRef.current!.value,
+  const formDataToShow = useSelector(selectSentFormData);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const { target } = e;
+
+    const formData = Object.fromEntries(new FormData(target as HTMLFormElement));
+
+    const convertedData = {
+      ...formData,
+      [FormInputNames.age]: (formData[FormInputNames.age] as string) || '0',
+      [FormInputNames.acceptRules]: (formData[FormInputNames.acceptRules] as string) === 'on',
     };
 
-    e.preventDefault();
-    dispatch(addNewSubmit(submit));
+    schema
+      .validate(convertedData, { abortEarly: false })
+      .then((data) => {
+        dispatch(
+          addNewSubmit({
+            ...data,
+            uploadImage: 'base64File',
+          })
+        );
+        navigate('/');
+      })
+      .catch((validationErrors: ValidationError) => {
+        const newErrors: Record<string, string> = {};
+        validationErrors.inner.forEach((error) => {
+          if (error.path) {
+            newErrors[error.path] = error.message;
+          }
+        });
+        setErrors(newErrors);
+      });
   }
   const form = (
     <form id={'uncontrolled-form'} className="form" onSubmit={(e) => handleSubmit(e)}>
-      <input type="text" ref={nameInputRef} />
-      <input type="text" defaultValue={'20'} ref={ageInputRef} />
-      <input type="email" defaultValue={'kate@gmail.ru'} ref={emailInputRef} />
-      <input type="text" defaultValue={'woman'} ref={genderInputRef} />
-      <input type="checkbox" defaultChecked={true} ref={acceptRulesInputRef} />
-      <input type="file" ref={uploadImgInputRef} />
+      <input type="text" defaultValue={'Kate'} name={FormInputNames.name} />
+      {errors[FormInputNames.name] && <span className="error">{errors[FormInputNames.name]}</span>}
+      <input type="text" defaultValue={0} name={FormInputNames.age} />
+      {errors[FormInputNames.age] && <span className="error">{errors[FormInputNames.age]}</span>}
+      <input type="email" defaultValue={'kate@gmail.ru'} name={FormInputNames.email} />
+      {errors[FormInputNames.email] && (
+        <span className="error">{errors[FormInputNames.email]}</span>
+      )}
+      <input type="text" defaultValue={'female'} name={FormInputNames.gender} />
+      {errors[FormInputNames.gender] && (
+        <span className="error">{errors[FormInputNames.gender]}</span>
+      )}
+      <input type="checkbox" defaultChecked={true} name={FormInputNames.acceptRules} />
+      {errors[FormInputNames.acceptRules] && (
+        <span className="error">{errors[FormInputNames.acceptRules]}</span>
+      )}
+
       <input type="submit" />
     </form>
   );
@@ -53,7 +77,7 @@ export default function UncontrolledForm() {
       <Link to="/">Go to the main!</Link>
       {form}
       <div className="show-submittions">
-        <SubmittionsList submitts={submittionsToShow} />
+        <SentFormDataItemsList sentFormData={formDataToShow} />
       </div>
     </>
   );

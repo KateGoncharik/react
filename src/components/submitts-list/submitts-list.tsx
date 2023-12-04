@@ -1,11 +1,11 @@
-import { Submit } from '../submit/submit';
-import { FormData } from '@/pages/uncontrolled-form-page';
+import { SentFormDataItem } from '../submit/submit';
+import { FormData } from '@/types/form-data';
 
-export function SubmittionsList({ submitts }: { submitts: FormData[] }) {
+export function SentFormDataItemsList({ sentFormData }: { sentFormData: FormData[] }) {
   return (
     <>
-      {submitts.map((submit: FormData) => {
-        return <Submit key={`${submit.name}-${submit.age}`} submit={submit} />;
+      {sentFormData.map((formData: FormData) => {
+        return <SentFormDataItem key={`${formData.name}-${formData.age}`} formData={formData} />;
       })}
     </>
   );
