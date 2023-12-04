@@ -1,25 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ErrorPage from '@/pages/error-page';
-import MainPage from './pages/main-page';
-import '@/components/search/search.css';
+import { router } from './routes/routes';
+import { RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
+
 import './main.css';
-import '@/components/item/item.css';
-import '@/components/results/results.css';
-import '@/components/pagination/pagination.css';
-
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <MainPage />,
-    errorElement: <ErrorPage />,
-  },
-]);
+import './pages/form.css';
+import '@/components/submitts-list/submittions-list.css';
+import '@/components/submit/submit.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
