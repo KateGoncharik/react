@@ -1,9 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { addNewSubmit, selectSentFormData } from '@/features/form-slice';
+import { addNewSubmit } from '@/features/form-slice';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { SentFormDataItemsList } from '@/components/submitts-list/submitts-list';
 import { ValidationError } from 'yup';
 
 import { schema } from '@/utils/schema';
@@ -13,8 +12,6 @@ export default function UncontrolledForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
-  const formDataToShow = useSelector(selectSentFormData);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -76,9 +73,6 @@ export default function UncontrolledForm() {
     <>
       <Link to="/">Go to the main!</Link>
       {form}
-      <div className="show-submittions">
-        <SentFormDataItemsList sentFormData={formDataToShow} />
-      </div>
     </>
   );
 }
