@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { store } from '@/store';
 
 import './main.css';
-import './pages/form.css';
+import './pages/forms/form.css';
 import '@/components/submitts-list/submittions-list.css';
 import '@/components/submit/submit.css';
 

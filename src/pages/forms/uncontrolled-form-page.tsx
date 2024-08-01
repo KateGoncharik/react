@@ -48,23 +48,39 @@ export default function UncontrolledForm() {
   }
   const form = (
     <form id={'uncontrolled-form'} className="form" onSubmit={(e) => handleSubmit(e)}>
-      <input type="text" defaultValue={'Kate'} name={FormInputNames.name} />
-      {errors[FormInputNames.name] && <span className="error">{errors[FormInputNames.name]}</span>}
-      <input type="text" defaultValue={0} name={FormInputNames.age} />
-      {errors[FormInputNames.age] && <span className="error">{errors[FormInputNames.age]}</span>}
-      <input type="email" defaultValue={'kate@gmail.ru'} name={FormInputNames.email} />
-      {errors[FormInputNames.email] && (
-        <span className="error">{errors[FormInputNames.email]}</span>
-      )}
-      <input type="text" defaultValue={'female'} name={FormInputNames.gender} />
-      {errors[FormInputNames.gender] && (
-        <span className="error">{errors[FormInputNames.gender]}</span>
-      )}
-      <input type="checkbox" defaultChecked={true} name={FormInputNames.acceptRules} />
-      {errors[FormInputNames.acceptRules] && (
-        <span className="error">{errors[FormInputNames.acceptRules]}</span>
-      )}
-
+      <label htmlFor={FormInputNames.name} className="label">
+        Name:
+        <input type="text" defaultValue={'Kate'} name={FormInputNames.name} />
+        {errors[FormInputNames.name] && (
+          <span className="error">{errors[FormInputNames.name]}</span>
+        )}
+      </label>
+      <label htmlFor={FormInputNames.age} className="label">
+        Age:
+        <input type="text" defaultValue={0} name={FormInputNames.age} />
+        {errors[FormInputNames.age] && <span className="error">{errors[FormInputNames.age]}</span>}
+      </label>
+      <label htmlFor={FormInputNames.email} className="label">
+        Email:
+        <input type="email" defaultValue={'kate@gmail.ru'} name={FormInputNames.email} />
+        {errors[FormInputNames.email] && (
+          <span className="error">{errors[FormInputNames.email]}</span>
+        )}
+      </label>
+      <label htmlFor={FormInputNames.gender} className="label">
+        Gender:
+        <input type="text" defaultValue={'female'} name={FormInputNames.gender} />
+        {errors[FormInputNames.gender] && (
+          <span className="error">{errors[FormInputNames.gender]}</span>
+        )}
+      </label>
+      <label htmlFor={FormInputNames.name} className="label">
+        Accept T&C:
+        <input type="checkbox" defaultChecked={true} name={FormInputNames.acceptRules} />
+        {errors[FormInputNames.acceptRules] && (
+          <span className="error">{errors[FormInputNames.acceptRules]}</span>
+        )}
+      </label>
       <input type="submit" />
     </form>
   );
