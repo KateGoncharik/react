@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["vitest/globals"],
     "baseUrl": ".",
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -17,15 +18,18 @@
     "jsx": "react-jsx",
     "strict": true,
     "allowJs": false,
-    "noFallthroughCasesInSwitch": true
-  },
-  "paths": {
-    "@/*": ["src/*"],
-    "@/components/*": ["src/components/*"],
-    "@/pages/*": ["src/pages/*"],
-    "@/services/*": ["src/services/*"],
-    "@/lib/*": ["src/lib/*"]
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"]
+    },
+    "incremental": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "exclude": ["node_modules"]
 }
